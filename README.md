@@ -165,11 +165,11 @@ print(related)
 | **id**         | Unique ID for this code result used by searchcode, which can be used in other API calls. |
 | **filename**   | The filename for this file.                                                              |
 
-# About Searchcode
+## About Searchcode
 
 Read more about searchcode [here](https://searchcode.com/about/)
 
-# Credit
+## Credit
 
 Special thanks to [Benjamin Boyter](https://boyter.org/about/) for giving me the opportunity to develop an SDK for
 SearchCode 
