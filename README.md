@@ -1,26 +1,157 @@
-![searchcode-cli_banner](https://user-images.githubusercontent.com/74001397/203441377-ad53a2ab-16d6-42b3-bbec-542c9ed43534.png)
+<p align="center"><img src="https://github.com/user-attachments/assets/9bace0e8-ffdf-40c1-be8c-3a230de41802"></p>
+<p align="center">An official Python SDK for <a href="https://searchcode.com">SearchCode</a><br><i>Simple, comprehensive code search</i></p>
+<p align="center">
+  <a href="https://github.com/knewkarma-io/knewkarma"><img alt="Code Style" src="https://img.shields.io/badge/code%20style-black-000000?logo=github&link=https%3A%2F%2Fgithub.com%2Frly0nheart%2Fknewkarma"></a>
+</p>
 
+## code_search
 
-A Python wrapper around the [SearchCode API](https://searchcode.com/api/)
+Queries the code index and returns at most 100 results.
 
-[![Upload Python Package](https://github.com/rly0nheart/searchcode-cli/actions/workflows/python-publish.yml/badge.svg)](https://github.com/rly0nheart/searchcode-cli/actions/workflows/python-publish.yml) [![CodeQL](https://github.com/rly0nheart/searchcode-cli/actions/workflows/codeql.yml/badge.svg)](https://github.com/rly0nheart/searchcode-cli/actions/workflows/codeql.yml)
-![GitHub top language](https://img.shields.io/github/languages/top/rly0nheart/searchcode-cli?logo=github)
-![PyPI](https://img.shields.io/pypi/v/searchcode-cli?label=Latest%20Release&logo=pypi)
-![PyPI - Status](https://img.shields.io/pypi/status/searchcode-cli?label=Status&logo=pypi)
+All filters supported by searchcode are available. These include
+`sources`, `languages` and `lines_of_code`. These work in the same way that the main page works.
 
-# Documentation
-[Refer to the Wiki](https://github.com/rly0nheart/searchcode-cli/wiki) for installation instructions, code examples, in addition to all other documentation.
+> See the examples below for how to use these.
 
-# Notice
-> This project is developed with permission from [Benjamin Boyter](https://boyter.org/about/), the developer of [searchcode.com](https://searchcode.com).
-Therefore, I only take credit for this project. Not the API.
+If the results list is empty, then this indicates that you have reached the end of the available results.
 
-# About SearchCode
+To fetch all results for a given query, keep incrementing the `page` parameter until you get a page with an empty
+results list.
+
+### Example Query Without Filters
+
+```python
+import searchcode as sc
+
+search = sc.code_search(query="test")
+
+for result in search.results:
+    print(result)
+```
+
+### Example Language Filter (Java and Javascript):
+
+```python
+import searchcode as sc
+
+search = sc.code_search(query="test", languages=["Java", "JavaScript"])
+
+for result in search.results:
+    print(result.language)
+```
+
+### Example Source Filter (Bitbucket and CodePlex):
+
+```python
+import searchcode as sc
+
+search = sc.code_search(query="test", sources=["BitBucket", "CodePlex"])
+
+for result in search.results:
+    print(result.filename)
+```
+
+Example Lines of Code Filter (Between 500 and 1000)
+
+```python
+import searchcode as sc
+
+search = sc.code_search(query="test", lines_of_code=500, lines_of_code2=1000)
+
+for result in search.results:
+    print(result.linescount)
+```
+
+### Example:
+
+```python
+import searchcode as sc
+
+search = sc.code_search(query="soup", page=1, callback="myCallback")
+
+for result in search.results:
+    print(result)
+```
+
+### Response Attribute Definitions
+
+| Attribute            | Description                                                                                                                                                                                               |
+|----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **searchterm**       | Search term supplied to the API through the use of the `q` parameter.                                                                                                                                     |
+| **query**            | Identical to `searchterm` and included for historical reasons to maintain backward compatibility.                                                                                                         |
+| **matchterm**        | Identical to `searchterm` and included for historical reasons to maintain backward compatibility.                                                                                                         |
+| **page**             | ID of the current page that the query has returned. This is a zero-based index.                                                                                                                           |
+| **nextpage**         | ID of the offset of the next page. Always set to the current page + 1, even if you have reached the end of the results. This is a zero-based index.                                                       |
+| **previouspage**     | ID of the offset of the previous page. If no previous page is available, it will be set to `null`. This is a zero-based index.                                                                            |
+| **total**            | The total number of results that match the `searchterm` in the index. Note that this value is approximate. It becomes more accurate as you go deeper into the results or use more filters.                |
+| **language_filters** | Returns an array containing languages that exist in the result set.                                                                                                                                       |
+| **id**               | Unique ID for this language used by searchcode, which can be used in other API calls.                                                                                                                     |
+| **count**            | Total number of results that are written in this language.                                                                                                                                                |
+| **language**         | The name of this language.                                                                                                                                                                                |
+| **source_filters**   | Returns an array containing sources that exist in the result set.                                                                                                                                         |
+| **id**               | Unique ID for this source used by searchcode, which can be used in other API calls.                                                                                                                       |
+| **count**            | Total number of results that belong to this source.                                                                                                                                                       |
+| **source**           | The name of this source.                                                                                                                                                                                  |
+| **results**          | Returns an array containing the matching code results.                                                                                                                                                    |
+| **id**               | Unique ID for this code result used by searchcode, which can be used in other API calls.                                                                                                                  |
+| **filename**         | The filename for this file.                                                                                                                                                                               |
+| **repo**             | HTML link to the location of the repository where this code was found.                                                                                                                                    |
+| **linescount**       | Total number of lines in the matching file.                                                                                                                                                               |
+| **location**         | Location inside the repository where this file exists.                                                                                                                                                    |
+| **name**             | Name of the repository that this file belongs to.                                                                                                                                                         |
+| **language**         | The identified language of this result.                                                                                                                                                                   |
+| **url**              | URL to searchcode's location of the file.                                                                                                                                                                 |
+| **md5hash**          | Calculated MD5 hash of the file's contents.                                                                                                                                                               |
+| **lines**            | Contains line numbers and lines which match the `searchterm`. Lines immediately before and after the match are included. If only the filename matches, up to the first 15 lines of the file are returned. |
+
+## code_result
+
+Returns the raw data from a code file given the code id which can be found as the id in a code search result.
+
+### Example:
+
+```python
+import searchcode as sc
+
+result = sc.code_result(id=4061576)
+print(result)
+```
+
+> Returns raw data from the code file.
+
+## related_results
+
+Returns an array of results given a searchcode unique code id which are considered to be duplicates. The matching is
+slightly fuzzy allowing so that small differences between files are ignored.
+
+### Example:
+
+```python
+import searchcode as sc
+
+related = sc.related_results(id=4061576)
+print(related)
+```
+
+### Response Attribute Definitions
+
+| Attribute      | Description                                                                              |
+|----------------|------------------------------------------------------------------------------------------|
+| **reponame**   | Name of the repository which this related result belongs to.                             |
+| **source**     | The source which this code result comes from.                                            |
+| **sourceurl**  | URL to the repository this result belongs to.                                            |
+| **md5hash**    | Calculated MD5 hash of the file's contents.                                              |
+| **location**   | Location inside the repository where this file exists.                                   |
+| **language**   | Name of the language which this file is identified to be.                                |
+| **linescount** | Total number of lines in this file.                                                      |
+| **id**         | Unique ID for this code result used by searchcode, which can be used in other API calls. |
+| **filename**   | The filename for this file.                                                              |
+
+# About Searchcode
+
 Read more about searchcode [here](https://searchcode.com/about/)
 
-# Support
-If you like this project and would like to show support, you can Buy Me A Coffee using the button below
+# Credit
 
-<a href="https://www.buymeacoffee.com/_rly0nheart" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
-
-Your support will be much appreciated!😊
+Special thanks to [Benjamin Boyter](https://boyter.org/about/) for giving me the opportunity to develop an SDK for
+SearchCode 
