@@ -1,31 +1,27 @@
-[build-system]
-requires = ["setuptools", "setuptools-scm"]
-build-backend = "setuptools.build_meta"
-
-[project]
-name = "searchcode-cli"
-version = "2.2.0"
-description = "A Python wrapper around the searchcode API"
+[tool.poetry]
+name = "searchcode"
+version = "0.1.0"
+description = "A Python wrapper for the SearchCode API"
+authors = ["Richard Mwewa <rly0nheart@duck.com>"]
+license = "GPL-3.0+ License"
 readme = "README.md"
-requires-python = ">=3.9"
-license = { file = "LICENSE" }
-keywords = ["searchcode", "search-engine", "codesearch", "api-wrapper"]
-authors = [{ name = "Richard Mwewa", email = "rly0nheart@duck.com" }]
+homepage = "https://searchcode.com"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Programming Language :: Python :: 3",
-    "Intended Audience :: Information Technology",
-    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Intended Audience :: Developers",
     "Operating System :: OS Independent",
-    "Natural Language :: English",
-    ""
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Natural Language :: English"
 ]
 
-[tool.setuptools]
-packages = ["searchcode"]
+[tool.poetry.dependencies]
+python = "^3.10"
+requests = "^2.32.2"
 
-[project.urls]
-homepage = "https://searchcode.com"
-documentation = "https://github.com/rly0nheart/searchcode-cli/wiki"
-repository = "https://github.com/rly0nheart/searchcode-cli.git"
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.3"
 
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
