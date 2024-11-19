@@ -15,7 +15,7 @@
 * [code_result](#code_result)
     * [Example](#example)
 * [related_results](#related_results)
-    * [Example](#example)
+    * [Example](#example-1)
     * [Response Attribute Definitions](#response-attribute-definitions)
 * [About Searchcode](#about-searchcode)
 * [Credit](#credit)
