@@ -4,6 +4,24 @@
   <a href="https://github.com/knewkarma-io/knewkarma"><img alt="Code Style" src="https://img.shields.io/badge/code%20style-black-000000?logo=github&link=https%3A%2F%2Fgithub.com%2Frly0nheart%2Fknewkarma"></a>
 </p>
 
+## Table Of Contents
+* [Code_search](#code_search)
+    * [Example (Without Filters)](#example-without-filters)
+    * [Example Language Filter (Java and Javascript)](#example-language-filter-java-and-javascript)
+    * [Example Source Filter (Bitbucket and CodePlex)](#example-source-filter-bitbucket-and-codeplex)
+    * [Example Lines of Code Filter (Between 500 and 1000)](#example-lines-of-code-filter-between-500-and-1000)
+    * [Example (JSONP)](#example-jsonp)
+    * [Response Attribute Definitions](#response-attribute-definitions)
+* [code_result](#code_result)
+    * [Example](#example)
+* [related_results](#related_results)
+    * [Example](#example)
+    * [Response Attribute Definitions](#response-attribute-definitions)
+* [About Searchcode](#about-searchcode)
+* [Credit](#credit)
+
+***
+
 ## code_search
 
 Queries the code index and returns at most 100 results.
@@ -18,7 +36,7 @@ If the results list is empty, then this indicates that you have reached the end 
 To fetch all results for a given query, keep incrementing the `page` parameter until you get a page with an empty
 results list.
 
-### Example Query Without Filters
+### Example (Without Filters):
 
 ```python
 import searchcode as sc
@@ -51,7 +69,7 @@ for result in search.results:
     print(result.filename)
 ```
 
-Example Lines of Code Filter (Between 500 and 1000)
+### Example Lines of Code Filter (Between 500 and 1000):
 
 ```python
 import searchcode as sc
@@ -62,7 +80,7 @@ for result in search.results:
     print(result.linescount)
 ```
 
-### Example:
+### Example (JSONP):
 
 ```python
 import searchcode as sc
