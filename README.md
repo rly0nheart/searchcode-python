@@ -176,5 +176,4 @@ Read more about searchcode [here](https://searchcode.com/about/)
 
 ## Credit
 
-Special thanks to [Benjamin Boyter](https://boyter.org/about/) for giving me the opportunity to develop an SDK for
-SearchCode 
+Special thanks to [Ben Boyter](https://boyter.org/about/), developer of [searchcode.com](https://searchcode.com)
