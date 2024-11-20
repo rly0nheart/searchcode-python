@@ -31,8 +31,10 @@ All filters supported by searchcode are available. These include
 
 > See the examples below for how to use these.
 
+> [!IMPORTANT]
 If the results list is empty, then this indicates that you have reached the end of the available results.
 
+> [!TIP] 
 To fetch all results for a given query, keep incrementing the `page` parameter until you get a page with an empty
 results list.
 
@@ -139,7 +141,10 @@ print(result)
 
 ## related_results
 
-Returns an array of results given a searchcode unique code id which are considered to be duplicates. The matching is
+Returns an array of results given a searchcode unique code id which are considered to be duplicates. 
+
+> [!IMPORTANT]
+The matching is
 slightly fuzzy allowing so that small differences between files are ignored.
 
 ### Example:
