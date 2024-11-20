@@ -1,4 +1,4 @@
-<p align="center"><img src="https://github.com/user-attachments/assets/d0c71e24-c4f3-4a9a-846f-99c572017584"></p>
+<p align="center"><img src="https://github.com/user-attachments/assets/4b967019-fd7d-4c1a-adff-d8bf04711a59"></p>
 <p align="center">An official Python SDK for <a href="https://searchcode.com">SearchCode</a><br><i>Simple, comprehensive code search</i></p>
 <p align="center">
   <a href="https://github.com/knewkarma-io/knewkarma"><img alt="Code Style" src="https://img.shields.io/badge/code%20style-black-000000?logo=github&link=https%3A%2F%2Fgithub.com%2Frly0nheart%2Fknewkarma"></a>
