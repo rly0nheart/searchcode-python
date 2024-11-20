@@ -26,17 +26,17 @@
 
 Queries the code index and returns at most 100 results.
 
+> [!TIP]
 All filters supported by searchcode are available. These include
-`sources`, `languages` and `lines_of_code`. These work in the same way that the main page works.
-
-> See the examples below for how to use these.
-
-> [!IMPORTANT]
-If the results list is empty, then this indicates that you have reached the end of the available results.
+`sources`, `languages` and `lines_of_code`. These work in the same way that the main page works; See the examples below for how to use them.
 
 > [!TIP] 
 To fetch all results for a given query, keep incrementing the `page` parameter until you get a page with an empty
 results list.
+
+> [!IMPORTANT]
+If the results list is empty, then this indicates that you have reached the end of the available results.
+
 
 ### Example (Without Filters):
 
