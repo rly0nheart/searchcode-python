@@ -1,10 +1,11 @@
-<p align="center"><img src="https://github.com/user-attachments/assets/d28934e1-a1ab-4b6e-9d12-d64067a65a60"><br>An unofficial Python SDK for <a href="https://searchcode.com">SearchCode</a>.<br><i>Search 75 billion lines of code from 40 million projects</i></p>
+<p align="center"><img src="https://github.com/user-attachments/assets/d28934e1-a1ab-4b6e-9d12-d64067a65a60"><br>Python SDK for <a href="https://searchcode.com">SearchCode</a>.<br><i>Search 75 billion lines of code from 40 million projects</i></p>
 <p align="center"></p>
 <p align="center">
   <a href="https://github.com/knewkarma-io/knewkarma"><img alt="Code Style" src="https://img.shields.io/badge/code%20style-black-000000?logo=github&link=https%3A%2F%2Fgithub.com%2Frly0nheart%2Fknewkarma"></a>
 </p>
 
 ## Table Of Contents
+
 * [Code_search](#code_search)
     * [Example (Without Filters)](#example-without-filters)
     * [Example Language Filter (Java and Javascript)](#example-language-filter-java-and-javascript)
@@ -27,16 +28,16 @@
 Queries the code index and returns at most 100 results.
 
 > [!TIP]
-All filters supported by searchcode are available. These include
-`sources`, `languages` and `lines_of_code`. These work in the same way that the main page works; See the examples below for how to use them.
+> All filters supported by searchcode are available. These include
+`sources`, `languages` and `lines_of_code`. These work in the same way that the main page works; See the examples below
+> for how to use them.
 
-> [!TIP] 
-To fetch all results for a given query, keep incrementing the `page` parameter until you get a page with an empty
-results list.
+> [!TIP]
+> To fetch all results for a given query, keep incrementing the `page` parameter until you get a page with an empty
+> results list.
 
 > [!IMPORTANT]
-If the results list is empty, then this indicates that you have reached the end of the available results.
-
+> If the results list is empty, then this indicates that you have reached the end of the available results.
 
 ### Example (Without Filters):
 
@@ -76,7 +77,7 @@ for result in search.results:
 ```python
 import searchcode as sc
 
-search = sc.code_search(query="test", lines_of_code=500, lines_of_code2=1000)
+search = sc.code_search(query="test", lines_of_code_max=500, lines_of_code_min=1000)
 
 for result in search.results:
     print(result.linescount)
@@ -141,11 +142,11 @@ print(result)
 
 ## related_results
 
-Returns an array of results given a searchcode unique code id which are considered to be duplicates. 
+Returns an array of results given a searchcode unique code id which are considered to be duplicates.
 
 > [!IMPORTANT]
-The matching is
-slightly fuzzy allowing so that small differences between files are ignored.
+> The matching is
+> slightly fuzzy allowing so that small differences between files are ignored.
 
 ### Example:
 
