@@ -174,7 +174,7 @@ Searchcode is a simple, comprehensive source code search engine that indexes bil
 projects,
 helping you find real world examples of functions, API's and libraries in 243 languages across 10+ public code sources.
 
-[Learn more](https://searchcode.com/about).
+[Learn more](https://searchcode.com/about)
 
 ## Acknowledgements
 
