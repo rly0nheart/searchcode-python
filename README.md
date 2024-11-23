@@ -134,7 +134,7 @@ Returns the raw data from a code file given the code id which can be found as th
 
 import searchcode as sc
 
-code = sc.code_result(123456)
+code = sc.code_result(4061576)
 print(code)
 ```
 
@@ -150,7 +150,7 @@ Returns an array of results given a searchcode unique code id which are consider
 
 import searchcode as sc
 
-related = sc.related_results(123456)
+related = sc.related_results(4061576)
 print(related)
 ```
 
