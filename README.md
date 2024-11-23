@@ -174,9 +174,9 @@ Searchcode is a simple, comprehensive source code search engine that indexes bil
 projects,
 helping you find real world examples of functions, API's and libraries in 243 languages across 10+ public code sources.
 
-Learn more at [Searchcode.com](https://searchcode.com).
+[Learn more](https://searchcode.com/about).
 
 ## Acknowledgements
 
-This SDK is developed and maintained by [Richard Mwewa](https://gravatar.com/rly0nheart), with special thanks
-to [Ben Boyter](https://boyter.org/about/), the creator of Searchcode.
+This SDK is developed and maintained by [Richard Mwewa](https://gravatar.com/rly0nheart), in collaboration
+with [Ben Boyter](https://boyter.org/about/), the creator of [Searchcode.com](https://searchcode.com).
