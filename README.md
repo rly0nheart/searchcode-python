@@ -16,7 +16,7 @@ pip install searchcode
 
 ### Code Search
 
-Query the code index with optional filters
+Queries the code index and returns at most 100 results.
 
 #### Params
 
@@ -26,13 +26,18 @@ Query the code index with optional filters
         - Filter by language **lang:LANGUAGE** e.g., _"import lang:python"_
         - Filter by repository **repo:REPONAME** e.g., _"float Q_rsqrt repo:quake"_
         - Filter by user/repository **repo:USERNAME/REPONAME** e.g., _"batf repo:boyter/batf"_
-- `page`: Page number for paginated results.
+- `page`: Result page starting at 0 through to 49
 - `per_page`: Number of results wanted per page (max 100).
 - `languages`: List of programming languages to filter by.
 - `sources`: List of code sources (e.g., GitHub, BitBucket).
 - `lines_of_code_gt`: Filter to sources with greater lines of code than supplied int. Valid values 0 to 10000.
 - `lines_of_code_lt`: Filter to sources with less lines of code than supplied int. Valid values 0 to 10000.
 - `callback`: Callback function (JSONP only)
+
+> If the results list is empty, then this indicates that you have reached the end of the available results.
+
+> To fetch all results for a given query, keep incrementing `page` parameter until you get a page with an empty results
+> list.
 
 #### Code Search Without Filters
 
