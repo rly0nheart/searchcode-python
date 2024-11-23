@@ -179,4 +179,4 @@ Learn more at [Searchcode.com](https://searchcode.com).
 ## Acknowledgements
 
 This SDK is developed and maintained by [Richard Mwewa](https://gravatar.com/rly0nheart), with special thanks
-to [Ben Boyter](https://boyter.org/about/), the creator of SearchCode.
+to [Ben Boyter](https://boyter.org/about/), the creator of Searchcode.
