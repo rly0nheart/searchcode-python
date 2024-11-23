@@ -128,7 +128,7 @@ Returns the raw data from a code file given the code id which can be found as th
 
 #### Params
 
-- `_id`: Unique code file identifier.
+- `_id`: Unique identifier for the code file (required).
 
 ```python
 
@@ -144,7 +144,7 @@ Returns an array of results given a searchcode unique code id which are consider
 
 #### Params
 
-- `_id`: Unique code file identifier.
+- `_id`: Unique identifier for the code file (required).
 
 ```python
 
