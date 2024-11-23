@@ -1,8 +1,5 @@
 <p align="center"><img src="https://github.com/user-attachments/assets/d28934e1-a1ab-4b6e-9d12-d64067a65a60"><br>Python SDK for <a href="https://searchcode.com">Searchcode</a>.<br><i>Search 75 billion lines of code from 40 million projects</i></p>
 <p align="center"></p>
-<p align="center">
-  <a><img alt="Code Style" src="https://img.shields.io/badge/code%20style-black-000000?logo=github"></a>
-</p>
 
 ## Installation
 
