@@ -17,8 +17,7 @@ _BASE_API_ENDPOINT = "https://searchcode.com/api"
 
 
 def _get_response(
-    endpoint: str,
-    params: Optional[List[Tuple[str, str]]] = None,
+    endpoint: str, params: Optional[List[Tuple[str, str]]] = None, **kwargs
 ) -> Union[Dict, List, str]:
     """
     Sends a GET request to the specified endpoint with the given headers and parameters.
@@ -34,29 +33,32 @@ def _get_response(
 
     response = requests.get(url=endpoint, params=params)
     response.raise_for_status()
-    return response.json()
+    return response.text if kwargs.get("is_callback") else response.json()
 
 
-def _object_to_namespace(
-    obj: Union[List[Dict], Dict]
+def _response_to_namespace_obj(
+    response: Union[List[Dict], Dict]
 ) -> Union[List[SimpleNamespace], SimpleNamespace, List[Dict], Dict]:
     """
-    Recursively converts dictionaries and lists of dictionaries into SimpleNamespace objects.
+    Recursively converts the API response into a SimpleNamespace object(s).
 
-    :param obj: The object to convert, either a dictionary or a list of dictionaries.
-    :type obj: Union[List[Dict], Dict]
+    :param response: The object to convert, either a dictionary or a list of dictionaries.
+    :type response: Union[List[Dict], Dict]
     :return: A SimpleNamespace object or list of SimpleNamespace objects.
     :rtype: Union[List[SimpleNamespace], SimpleNamespace, None]
     """
 
-    if isinstance(obj, Dict):
+    if isinstance(response, Dict):
         return SimpleNamespace(
-            **{key: _object_to_namespace(obj=value) for key, value in obj.items()}
+            **{
+                key: _response_to_namespace_obj(response=value)
+                for key, value in response.items()
+            }
         )
-    elif isinstance(obj, List):
-        return [_object_to_namespace(obj=item) for item in obj]
+    elif isinstance(response, List):
+        return [_response_to_namespace_obj(response=item) for item in response]
     else:
-        return obj
+        return response
 
 
 def code_search(
@@ -68,7 +70,7 @@ def code_search(
     lines_of_code_gt: Optional[int] = None,
     lines_of_code_lt: Optional[int] = None,
     callback: Optional[str] = None,
-) -> SimpleNamespace:
+) -> Union[SimpleNamespace, str]:
     """
     Searches and returns code snippets matching the query.
 
@@ -105,7 +107,7 @@ def code_search(
     source_ids = [] if not sources else get_source_ids(source_names=sources)
 
     response = _get_response(
-        endpoint=f"{_BASE_API_ENDPOINT}/codesearch_I/",
+        endpoint=f"{_BASE_API_ENDPOINT}/{'jsonp_codesearch_I' if callback else 'codesearch_I'}/",
         params=[
             ("q", query),
             ("p", page),
@@ -116,9 +118,10 @@ def code_search(
             *[("lan", language_id) for language_id in language_ids],
             *[("src", source_id) for source_id in source_ids],
         ],
+        is_callback=callback,
     )
 
-    return _object_to_namespace(obj=response)
+    return _response_to_namespace_obj(response=response)
 
 
 def code_result(_id: int) -> SimpleNamespace:
@@ -148,4 +151,4 @@ def related_results(_id: int) -> SimpleNamespace:
     """
 
     response = _get_response(endpoint=f"{_BASE_API_ENDPOINT}/related_results/{_id}")
-    return _object_to_namespace(obj=response)
+    return _response_to_namespace_obj(response=response)

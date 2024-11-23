@@ -1,47 +1,43 @@
-<p align="center"><img src="https://github.com/user-attachments/assets/d28934e1-a1ab-4b6e-9d12-d64067a65a60"><br>Python SDK for <a href="https://searchcode.com">SearchCode</a>.<br><i>Search 75 billion lines of code from 40 million projects</i></p>
+<p align="center"><img src="https://github.com/user-attachments/assets/d28934e1-a1ab-4b6e-9d12-d64067a65a60"><br>Python SDK for <a href="https://searchcode.com">Searchcode</a>.<br><i>Search 75 billion lines of code from 40 million projects</i></p>
 <p align="center"></p>
 <p align="center">
   <a href="https://github.com/knewkarma-io/knewkarma"><img alt="Code Style" src="https://img.shields.io/badge/code%20style-black-000000?logo=github&link=https%3A%2F%2Fgithub.com%2Frly0nheart%2Fknewkarma"></a>
 </p>
 
-## Table Of Contents
+## Installation
 
-* [Code_search](#code_search)
-    * [Example (Without Filters)](#example-without-filters)
-    * [Example Language Filter (Java and Javascript)](#example-language-filter-java-and-javascript)
-    * [Example Source Filter (Bitbucket and CodePlex)](#example-source-filter-bitbucket-and-codeplex)
-    * [Example Lines of Code Filter (Between 500 and 1000)](#example-lines-of-code-filter-between-500-and-1000)
-    * [Example (JSONP)](#example-jsonp)
-    * [Response Attribute Definitions](#response-attribute-definitions)
-* [code_result](#code_result)
-    * [Example](#example)
-* [related_results](#related_results)
-    * [Example](#example-1)
-    * [Response Attribute Definitions](#response-attribute-definitions-1)
-* [About Searchcode](#about-searchcode)
-* [Credit](#credit)
+```bash
 
-***
+pip install searchcode
 
-## code_search
+```
 
-Queries the code index and returns at most 100 results.
+## Documentation
 
-> [!TIP]
-> All filters supported by searchcode are available. These include
-`sources`, `languages` and `lines_of_code`. These work in the same way that the main page works; See the examples below
-> for how to use them.
+### Code Search
 
-> [!TIP]
-> To fetch all results for a given query, keep incrementing the `page` parameter until you get a page with an empty
-> results list.
+Query the code index with optional filters
 
-> [!IMPORTANT]
-> If the results list is empty, then this indicates that you have reached the end of the available results.
+#### Params
 
-### Example (Without Filters):
+- `query`: Search term (required).
+    - The following filters are textual and can be added into query directly
+        - Filter by file extention **ext:EXTENTION** e.g., _"gsub ext:erb"_
+        - Filter by language **lang:LANGUAGE** e.g., _"import lang:python"_
+        - Filter by repository **repo:REPONAME** e.g., _"float Q_rsqrt repo:quake"_
+        - Filter by user/repository **repo:USERNAME/REPONAME** e.g., _"batf repo:boyter/batf"_
+- `page`: Page number for paginated results.
+- `per_page`: Number of results wanted per page (max 100).
+- `languages`: List of programming languages to filter by.
+- `sources`: List of code sources (e.g., GitHub, BitBucket).
+- `lines_of_code_gt`: Filter to sources with greater lines of code than supplied int. Valid values 0 to 10000.
+- `lines_of_code_lt`: Filter to sources with less lines of code than supplied int. Valid values 0 to 10000.
+- `callback`: Callback function (JSONP only)
+
+#### Code Search Without Filters
 
 ```python
+
 import searchcode as sc
 
 search = sc.code_search(query="test")
@@ -50,9 +46,10 @@ for result in search.results:
     print(result)
 ```
 
-### Example Language Filter (Java and Javascript):
+#### Filter by Language (Java and JavaScript)
 
 ```python
+
 import searchcode as sc
 
 search = sc.code_search(query="test", languages=["Java", "JavaScript"])
@@ -61,9 +58,10 @@ for result in search.results:
     print(result.language)
 ```
 
-### Example Source Filter (Bitbucket and CodePlex):
+#### Filter by Source (BitBucket and CodePlex)
 
 ```python
+
 import searchcode as sc
 
 search = sc.code_search(query="test", sources=["BitBucket", "CodePlex"])
@@ -72,29 +70,28 @@ for result in search.results:
     print(result.filename)
 ```
 
-### Example Lines of Code Filter (Between 500 and 1000):
+#### Filter by Lines of Code (Between 500 and 1000)
 
 ```python
+
 import searchcode as sc
 
-search = sc.code_search(query="test", lines_of_code_max=500, lines_of_code_min=1000)
-
-for result in search.results:
-    print(result.linescount)
-```
-
-### Example (JSONP):
-
-```python
-import searchcode as sc
-
-search = sc.code_search(query="soup", page=1, callback="myCallback")
+search = sc.code_search(query="test", lines_of_code_gt=500, lines_of_code_lt=1000)
 
 for result in search.results:
     print(result)
 ```
 
-### Response Attribute Definitions
+#### With Callback Function (JSONP only)
+
+```python
+import searchcode as sc
+
+search = sc.code_search(query="test", callback="myCallback")
+print(search)
+```
+
+#### Response Attribute Definitions
 
 | Attribute            | Description                                                                                                                                                                                               |
 |----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -125,39 +122,39 @@ for result in search.results:
 | **md5hash**          | Calculated MD5 hash of the file's contents.                                                                                                                                                               |
 | **lines**            | Contains line numbers and lines which match the `searchterm`. Lines immediately before and after the match are included. If only the filename matches, up to the first 15 lines of the file are returned. |
 
-## code_result
+### Code Result
 
-Returns the raw data from a code file given the code id which can be found as the id in a code search result.
+Returns the raw data from a code file given the code id which can be found as the `id` in a code search result.
 
-### Example:
+#### Params
+
+- `_id`: Unique code file identifier.
 
 ```python
+
 import searchcode as sc
 
-result = sc.code_result(id=4061576)
-print(result)
+code = sc.code_result(123456)
+print(code)
 ```
 
-> Returns raw data from the code file.
-
-## related_results
+### Related Results
 
 Returns an array of results given a searchcode unique code id which are considered to be duplicates.
 
-> [!IMPORTANT]
-> The matching is
-> slightly fuzzy allowing so that small differences between files are ignored.
+#### Params
 
-### Example:
+- `_id`: Unique code file identifier.
 
 ```python
+
 import searchcode as sc
 
-related = sc.related_results(id=4061576)
+related = sc.related_results(123456)
 print(related)
 ```
 
-### Response Attribute Definitions
+#### Response Attribute Definitions
 
 | Attribute      | Description                                                                              |
 |----------------|------------------------------------------------------------------------------------------|
@@ -173,8 +170,13 @@ print(related)
 
 ## About Searchcode
 
-Read more about searchcode [here](https://searchcode.com/about/)
+Searchcode is a simple, comprehensive source code search engine that indexes billions of lines of code from open-source
+projects,
+helping you find real world examples of functions, API's and libraries in 243 languages across 10+ public code sources.
 
-## Credit
+Learn more at [Searchcode.com](https://searchcode.com).
 
-Special thanks to [Ben Boyter](https://boyter.org/about/), developer of [searchcode.com](https://searchcode.com)
+## Acknowledgements
+
+This SDK is developed and maintained by [Richard Mwewa](https://gravatar.com/rly0nheart), with special thanks
+to [Ben Boyter](https://boyter.org/about/), the creator of SearchCode.
