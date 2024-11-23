@@ -1,9 +1,9 @@
 [tool.poetry]
 name = "searchcode"
-version = "0.1.1"
-description = "An unofficial Python SDK for Searchcode."
+version = "0.2.0"
+description = "Python SDK for Searchcode."
 authors = ["Richard Mwewa <rly0nheart@duck.com>"]
-license = "GPL-3.0+ License"
+license = "GPLv3+"
 readme = "README.md"
 homepage = "https://searchcode.com"
 repository = "https://github.com/rly0nheart/searchcode-sdk"

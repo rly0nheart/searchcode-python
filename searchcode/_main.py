@@ -17,17 +17,13 @@ _BASE_API_ENDPOINT = "https://searchcode.com/api"
 
 
 def _get_response(
-    endpoint: str,
-    headers: Optional[Dict] = None,
-    params: Optional[List[Tuple[str, str]]] = None,
+    endpoint: str, params: Optional[List[Tuple[str, str]]] = None, **kwargs
 ) -> Union[Dict, List, str]:
     """
     Sends a GET request to the specified endpoint with the given headers and parameters.
 
     :param endpoint: The API endpoint to send the request to.
     :type endpoint: str
-    :param headers: Optional HTTP headers to include in the request.
-    :type headers: Optional[Dict]
     :param params: Optional list of query parameters as key-value tuples.
     :type params: Optional[List[Tuple[str, str]]]
     :return: The parsed JSON response, which could be a dictionary, list, or string.
@@ -35,35 +31,34 @@ def _get_response(
     :raises Exception: If the request fails or the server returns an error.
     """
 
-    try:
-        response = requests.get(url=endpoint, params=params, headers=headers)
-        response.raise_for_status()
-        return response.json()
-
-    except Exception as e:
-        raise e
+    response = requests.get(url=endpoint, params=params)
+    response.raise_for_status()
+    return response.text if kwargs.get("is_callback") else response.json()
 
 
-def _object_to_namespace(
-    obj: Union[List[Dict], Dict]
+def _response_to_namespace_obj(
+    response: Union[List[Dict], Dict]
 ) -> Union[List[SimpleNamespace], SimpleNamespace, List[Dict], Dict]:
     """
-    Recursively converts dictionaries and lists of dictionaries into SimpleNamespace objects.
+    Recursively converts the API response into a SimpleNamespace object(s).
 
-    :param obj: The object to convert, either a dictionary or a list of dictionaries.
-    :type obj: Union[List[Dict], Dict]
+    :param response: The object to convert, either a dictionary or a list of dictionaries.
+    :type response: Union[List[Dict], Dict]
     :return: A SimpleNamespace object or list of SimpleNamespace objects.
     :rtype: Union[List[SimpleNamespace], SimpleNamespace, None]
     """
 
-    if isinstance(obj, Dict):
+    if isinstance(response, Dict):
         return SimpleNamespace(
-            **{key: _object_to_namespace(obj=value) for key, value in obj.items()}
+            **{
+                key: _response_to_namespace_obj(response=value)
+                for key, value in response.items()
+            }
         )
-    elif isinstance(obj, List):
-        return [_object_to_namespace(obj=item) for item in obj]
+    elif isinstance(response, List):
+        return [_response_to_namespace_obj(response=item) for item in response]
     else:
-        return obj
+        return response
 
 
 def code_search(
@@ -72,10 +67,10 @@ def code_search(
     per_page: int = 100,
     languages: Optional[List[CODE_LANGUAGES]] = None,
     sources: Optional[List[CODE_SOURCES]] = None,
-    lines_of_code: Optional[int] = None,
-    lines_of_code2: Optional[int] = None,
+    lines_of_code_gt: Optional[int] = None,
+    lines_of_code_lt: Optional[int] = None,
     callback: Optional[str] = None,
-) -> SimpleNamespace:
+) -> Union[SimpleNamespace, str]:
     """
     Searches and returns code snippets matching the query.
 
@@ -98,10 +93,10 @@ def code_search(
     :param sources: Allows filtering to sources supplied by return types.
       Supply multiple to filter to multiple sources.
     :type sources: Optional[List[CODE_SOURCES]]
-    :param lines_of_code: Filter to sources with greater lines of code then supplied int. Valid values 0 to 10000.
-    :type lines_of_code: int
-    :param lines_of_code2: Filter to sources with fewer lines of code then supplied int. Valid values 0 to 10000.
-    :type lines_of_code2: int
+    :param lines_of_code_gt: Filter to sources with greater lines of code than supplied int. Valid values 0 to 10000.
+    :type lines_of_code_gt: int
+    :param lines_of_code_lt: Filter to sources with fewer lines of code than supplied int. Valid values 0 to 10000.
+    :type lines_of_code_lt: int
     :param callback: Callback function (JSONP only)
     :type callback: str
     :return: The search results as a SimpleNamespace object.
@@ -112,47 +107,48 @@ def code_search(
     source_ids = [] if not sources else get_source_ids(source_names=sources)
 
     response = _get_response(
-        endpoint=f"{_BASE_API_ENDPOINT}/codesearch_I/",
+        endpoint=f"{_BASE_API_ENDPOINT}/{'jsonp_codesearch_I' if callback else 'codesearch_I'}/",
         params=[
             ("q", query),
             ("p", page),
             ("per_page", per_page),
-            ("loc", lines_of_code),
-            ("loc2", lines_of_code2),
+            ("loc", lines_of_code_gt),
+            ("loc2", lines_of_code_lt),
             ("callback", callback),
             *[("lan", language_id) for language_id in language_ids],
             *[("src", source_id) for source_id in source_ids],
         ],
+        is_callback=callback,
     )
 
-    return _object_to_namespace(obj=response)
+    return _response_to_namespace_obj(response=response)
 
 
-def code_result(id: int) -> SimpleNamespace:
+def code_result(_id: int) -> SimpleNamespace:
     """
     Returns the raw data from a code file given the code ID which can be found as the `id` in a code search result.
 
-    :param id: The unique identifier of the code result.
-    :type id: int
+    :param _id: The unique identifier of the code result.
+    :type _id: int
     :return: The code result details as a SimpleNamespace object.
     :rtype: SimpleNamespace
     """
 
-    response = _get_response(endpoint=f"{_BASE_API_ENDPOINT}/result/{id}")
+    response = _get_response(endpoint=f"{_BASE_API_ENDPOINT}/result/{_id}")
     return response.get("code")
 
 
-def related_results(id: int) -> SimpleNamespace:
+def related_results(_id: int) -> SimpleNamespace:
     """
     Returns an array of results given a searchcode unique code id which are considered to be duplicates.
 
     The matching is slightly fuzzy allowing so that small differences between files are ignored.
 
-    :param id: The unique identifier of the code result.
-    :type id: int
+    :param _id: The unique identifier of the code result.
+    :type _id: int
     :return: A list of related results as a SimpleNamespace object.
     :rtype: SimpleNamespace
     """
 
-    response = _get_response(endpoint=f"{_BASE_API_ENDPOINT}/related_results/{id}")
-    return _object_to_namespace(obj=response)
+    response = _get_response(endpoint=f"{_BASE_API_ENDPOINT}/related_results/{_id}")
+    return _response_to_namespace_obj(response=response)
