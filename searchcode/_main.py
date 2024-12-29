@@ -9,6 +9,8 @@ from ._filters import (
     get_language_ids,
     get_source_ids,
 )
+from platform import python_version, platform
+from . import __pkg__, __pypi__, __version__
 
 __all__ = ["code_result", "code_search", "related_results"]
 
@@ -31,7 +33,14 @@ def _get_response(
     :raises Exception: If the request fails or the server returns an error.
     """
 
-    response = requests.get(url=endpoint, params=params)
+    response = requests.get(
+        url=endpoint,
+        params=params,
+        headers={
+            "User-Agent": f"{__package__}-sdk/{__version__} "
+            "(Python {python_version} on {platform}; +{__pypi__})"
+        },
+    )
     response.raise_for_status()
     return response.text if kwargs.get("is_callback") else response.json()
 
