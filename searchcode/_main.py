@@ -1,16 +1,16 @@
+from platform import python_version, platform
 from types import SimpleNamespace
 from typing import List, Union, Dict, Optional, Tuple
 
 import requests
 
+from . import __pkg__, __pypi__, __version__
 from ._filters import (
     CODE_SOURCES,
     CODE_LANGUAGES,
     get_language_ids,
     get_source_ids,
 )
-from platform import python_version, platform
-from . import __pkg__, __pypi__, __version__
 
 __all__ = ["code_result", "code_search", "related_results"]
 
@@ -38,7 +38,7 @@ def _get_response(
         params=params,
         headers={
             "User-Agent": f"{__package__}-sdk/{__version__} "
-            "(Python {python_version} on {platform}; +{__pypi__})"
+            f"(Python {python_version} on {platform}; +{__pypi__})"
         },
     )
     response.raise_for_status()
