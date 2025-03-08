@@ -1,3 +1,4 @@
+from platform import python_version, platform
 from types import SimpleNamespace
 from typing import List, Union, Dict, Optional, Tuple
 
@@ -10,7 +11,7 @@ from ._filters import (
     get_source_ids,
 )
 
-__all__ = ["code_result", "code_search", "related_results"]
+__all__ = ["code_result", "code_search"]
 
 
 _BASE_API_ENDPOINT = "https://searchcode.com/api"
@@ -31,7 +32,14 @@ def _get_response(
     :raises Exception: If the request fails or the server returns an error.
     """
 
-    response = requests.get(url=endpoint, params=params)
+    response = requests.get(
+        url=endpoint,
+        params=params,
+        headers={
+            "User-Agent": f"searchcode-sdk/0.2.2 "
+            f"(Python {python_version} on {platform}; +https://pypi.org/project/searchcode)"
+        },
+    )
     response.raise_for_status()
     return response.text if kwargs.get("is_callback") else response.json()
 
@@ -138,17 +146,18 @@ def code_result(_id: int) -> SimpleNamespace:
     return response.get("code")
 
 
-def related_results(_id: int) -> SimpleNamespace:
-    """
-    Returns an array of results given a searchcode unique code id which are considered to be duplicates.
+# This is deprecated.
+# def related_results(_id: int) -> SimpleNamespace:
+#    """
+#    Returns an array of results given a searchcode unique code id which are considered to be duplicates.
+#
+#    The matching is slightly fuzzy allowing so that small differences between files are ignored.
 
-    The matching is slightly fuzzy allowing so that small differences between files are ignored.
+#    :param _id: The unique identifier of the code result.
+#    :type _id: int
+#    :return: A list of related results as a SimpleNamespace object.
+#    :rtype: SimpleNamespace
+#    """
 
-    :param _id: The unique identifier of the code result.
-    :type _id: int
-    :return: A list of related results as a SimpleNamespace object.
-    :rtype: SimpleNamespace
-    """
-
-    response = _get_response(endpoint=f"{_BASE_API_ENDPOINT}/related_results/{_id}")
-    return _response_to_namespace_obj(response=response)
+#    response = _get_response(endpoint=f"{_BASE_API_ENDPOINT}/related_results/{_id}")
+#    return _response_to_namespace_obj(response=response)
