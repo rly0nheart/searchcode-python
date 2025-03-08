@@ -4,7 +4,6 @@ from typing import List, Union, Dict, Optional, Tuple
 
 import requests
 
-from . import __pkg__, __pypi__, __version__
 from ._filters import (
     CODE_SOURCES,
     CODE_LANGUAGES,
@@ -37,8 +36,8 @@ def _get_response(
         url=endpoint,
         params=params,
         headers={
-            "User-Agent": f"{__pkg__}-sdk/{__version__} "
-            f"(Python {python_version} on {platform}; +{__pypi__})"
+            "User-Agent": f"searchcode-sdk/0.2.2 "
+            f"(Python {python_version} on {platform}; +https://pypi.org/project/searchcode)"
         },
     )
     response.raise_for_status()
