@@ -1,8 +1,10 @@
+from platform import python_version, platform
 from types import SimpleNamespace
 from typing import List, Union, Dict, Optional, Tuple
 
 import requests
 
+from . import __pkg__, __pypi__, __version__
 from ._filters import (
     CODE_SOURCES,
     CODE_LANGUAGES,
@@ -31,7 +33,14 @@ def _get_response(
     :raises Exception: If the request fails or the server returns an error.
     """
 
-    response = requests.get(url=endpoint, params=params)
+    response = requests.get(
+        url=endpoint,
+        params=params,
+        headers={
+            "User-Agent": f"{__package__}-sdk/{__version__} "
+            f"(Python {python_version} on {platform}; +{__pypi__})"
+        },
+    )
     response.raise_for_status()
     return response.text if kwargs.get("is_callback") else response.json()
 

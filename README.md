@@ -180,5 +180,5 @@ helping you find real world examples of functions, API's and libraries in 243 la
 
 ## Acknowledgements
 
-This SDK is developed and maintained by [Richard Mwewa](https://gravatar.com/rly0nheart), in collaboration
+This SDK is developed and maintained by [Ritchie Mwewa](https://gravatar.com/rly0nheart), in collaboration
 with [Ben Boyter](https://boyter.org/about/), the creator of [Searchcode.com](https://searchcode.com).
