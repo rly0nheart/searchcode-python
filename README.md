@@ -140,36 +140,6 @@ code = sc.code_result(4061576)
 print(code)
 ```
 
-### Related Results
-
-Returns an array of results given a searchcode unique code id which are considered to be duplicates.
-
-#### Params
-
-- `_id`: Unique identifier for the code file (required).
-
-```python
-
-import searchcode as sc
-
-related = sc.related_results(4061576)
-print(related)
-```
-
-#### Response Attribute Definitions
-
-| Attribute      | Description                                                                              |
-|----------------|------------------------------------------------------------------------------------------|
-| **reponame**   | Name of the repository which this related result belongs to.                             |
-| **source**     | The source which this code result comes from.                                            |
-| **sourceurl**  | URL to the repository this result belongs to.                                            |
-| **md5hash**    | Calculated MD5 hash of the file's contents.                                              |
-| **location**   | Location inside the repository where this file exists.                                   |
-| **language**   | Name of the language which this file is identified to be.                                |
-| **linescount** | Total number of lines in this file.                                                      |
-| **id**         | Unique ID for this code result used by searchcode, which can be used in other API calls. |
-| **filename**   | The filename for this file.                                                              |
-
 ## About Searchcode
 
 Searchcode is a simple, comprehensive source code search engine that indexes billions of lines of code from open-source
