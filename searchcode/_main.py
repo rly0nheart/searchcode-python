@@ -37,7 +37,7 @@ def _get_response(
         url=endpoint,
         params=params,
         headers={
-            "User-Agent": f"{__package__}-sdk/{__version__} "
+            "User-Agent": f"{__pkg__}-sdk/{__version__} "
             f"(Python {python_version} on {platform}; +{__pypi__})"
         },
     )
