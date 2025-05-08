@@ -3,6 +3,7 @@ from typing import Optional, List
 
 import rich_click as click
 from rich import print as rprint, box
+from rich.pretty import pprint
 from rich.syntax import Syntax
 from rich.table import Table
 from whats_that_code.election import guess_language_all_methods
@@ -87,7 +88,7 @@ def search(
         lines_of_code_gt=lines_of_code_gt,
     )
     if pretty:
-        rprint(results)
+        pprint(results)
     else:
         print_table(records=results.results, ignore_keys=["lines"])
 
