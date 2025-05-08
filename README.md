@@ -11,7 +11,8 @@ from searchcode import Searchcode
 sc = Searchcode(user_agent="My-Searchcode-script")
 search = sc.search(query="import module")
 
-for result in search.results:
+results = search.get("results")
+for result in results:
     print(result)
 ```
 
@@ -66,7 +67,8 @@ from searchcode import Searchcode
 sc = Searchcode(user_agent="My-Searchcode-script")
 search = sc.search(query="import module")
 
-for result in search.results:
+results = search.get("results")
+for result in results:
     print(result)
 ```
 
@@ -88,7 +90,8 @@ from searchcode import Searchcode
 sc = Searchcode(user_agent="My-Searchcode-script")
 search = sc.search(query="import module", languages=["Java", "JavaScript"])
 
-for result in search.results:
+results = search.get("results")
+for result in results:
     print(result.language)
 ```
 
@@ -110,7 +113,8 @@ from searchcode import Searchcode
 sc = Searchcode(user_agent="My-Searchcode-script")
 search = sc.search(query="import module", sources=["BitBucket", "CodePlex"])
 
-for result in search.results:
+results = search.get("results")
+for result in results:
     print(result.filename)
 ```
 
@@ -132,8 +136,9 @@ from searchcode import Searchcode
 
 sc = Searchcode(user_agent="My-Searchcode-script")
 search = sc.search(query="import module", lines_of_code_gt=500, lines_of_code_lt=1000)
+results = search.get("results")
 
-for result in search.results:
+for result in results:
     print(result)
 ```
 
