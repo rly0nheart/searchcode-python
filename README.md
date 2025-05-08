@@ -1,8 +1,6 @@
 <p align="center"><img src="https://github.com/user-attachments/assets/d28934e1-a1ab-4b6e-9d12-d64067a65a60"><br>Python SDK and Command-Line Utility for <a href="https://searchcode.com">Searchcode</a>.<br><i>Search 75 billion lines of code from 40 million projects</i></p>
 <p align="center"></p>
 
----
-
 ```commandline
 searchcode --help
 ```
@@ -16,8 +14,6 @@ search = sc.search(query="test")
 for result in search.results:
     print(result)
 ```
-
----
 
 ## Installation
 
@@ -56,6 +52,12 @@ Queries the code index and returns at most 100 results.
 
 ### Code Search Without Filters
 
+#### CLI
+
+```commandline
+searchcode test
+```
+
 #### SDK
 
 ```python
@@ -68,15 +70,15 @@ for result in search.results:
     print(result)
 ```
 
-#### CLI
-
-```commandline
-searchcode test
-```
-
 ---
 
 ### Filter by Language (Java and JavaScript)
+
+#### CLI
+
+````commandline
+searchcode test --languages java,javascript
+````
 
 #### SDK
 
@@ -90,15 +92,15 @@ for result in search.results:
     print(result.language)
 ```
 
-#### CLI
-
-````commandline
-searchcode test --languages java,javascript
-````
-
 ___
 
 ### Filter by Source (BitBucket and CodePlex)
+
+#### CLI
+
+```commandline
+searchcode test --sources bitbucket,codeplex
+```
 
 #### SDK
 
@@ -112,15 +114,15 @@ for result in search.results:
     print(result.filename)
 ```
 
-#### CLI
-
-```commandline
-searchcode test --sources bitbucket,codeplex
-```
-
 ___
 
 ### Filter by Lines of Code (Between 500 and 1000)
+
+#### CLI
+
+```commandline
+searchcode test --lines-of-code-gt 500 --lines-of-code-lt 1000
+```
 
 #### SDK
 
@@ -135,15 +137,15 @@ for result in search.results:
     print(result)
 ```
 
-#### CLI
-
-```commandline
-searchcode test --lines-of-code-gt 500 --lines-of-code-lt 1000
-```
-
 ___
 
 ### With Callback Function (JSONP only)
+
+#### CLI
+
+```commandline
+searchcode test --callback myCallback
+```
 
 #### SDK
 
@@ -155,11 +157,7 @@ search = sc.search(query="test", callback="myCallback")
 print(search)
 ```
 
-#### CLI
-
-```commandline
-searchcode test --callback myCallback
-```
+`
 
 ### Response Attribute Definitions
 
@@ -198,6 +196,12 @@ ___
 
 Returns the raw data from a code file given the code id which can be found as the `id` in a code search result.
 
+#### CLI
+
+```commandline
+searchode code 4061576
+```
+
 #### SDK
 
 #### Params
@@ -213,11 +217,7 @@ code = sc.code(4061576)
 print(code)
 ```
 
-#### CLI
-
-```commandline
-searchode code 4061576
-```
+---
 
 ## About Searchcode
 
