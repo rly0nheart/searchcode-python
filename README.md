@@ -1,15 +1,32 @@
-<p align="center"><img src="https://github.com/user-attachments/assets/d28934e1-a1ab-4b6e-9d12-d64067a65a60"><br>Python SDK for <a href="https://searchcode.com">Searchcode</a>.<br><i>Search 75 billion lines of code from 40 million projects</i></p>
+<p align="center"><img src="https://github.com/user-attachments/assets/d28934e1-a1ab-4b6e-9d12-d64067a65a60"><br>Python SDK and Command-Line Utility for <a href="https://searchcode.com">Searchcode</a>.<br><i>Search 75 billion lines of code from 40 million projects</i></p>
 <p align="center"></p>
+
+---
+
+```commandline
+searchcode --help
+```
+
+```python
+from searchcode import Searchcode
+
+sc = Searchcode(user_agent="My-Searchcode-script")
+search = sc.search(query="test")
+
+for result in search.results:
+    print(result)
+```
+
+---
 
 ## Installation
 
 ```bash
 
 pip install searchcode
-
 ```
 
-## Documentation
+## Getting Started
 
 ### Code Search
 
@@ -35,65 +52,116 @@ Queries the code index and returns at most 100 results.
 
 > To fetch all results for a given query, keep incrementing `page` parameter until you get a page with an empty results
 > list.
+---
 
-#### Code Search Without Filters
+### Code Search Without Filters
+
+#### SDK
 
 ```python
+from searchcode import Searchcode
 
-import searchcode as sc
-
-search = sc.code_search(query="test")
+sc = Searchcode(user_agent="My-Searchcode-script")
+search = sc.search(query="test")
 
 for result in search.results:
     print(result)
 ```
 
-#### Filter by Language (Java and JavaScript)
+#### CLI
+
+```commandline
+searchcode test
+```
+
+---
+
+### Filter by Language (Java and JavaScript)
+
+#### SDK
 
 ```python
+from searchcode import Searchcode
 
-import searchcode as sc
-
-search = sc.code_search(query="test", languages=["Java", "JavaScript"])
+sc = Searchcode(user_agent="My-Searchcode-script")
+search = sc.search(query="test", languages=["Java", "JavaScript"])
 
 for result in search.results:
     print(result.language)
 ```
 
-#### Filter by Source (BitBucket and CodePlex)
+#### CLI
+
+````commandline
+searchcode test --languages java,javascript
+````
+
+___
+
+### Filter by Source (BitBucket and CodePlex)
+
+#### SDK
 
 ```python
+from searchcode import Searchcode
 
-import searchcode as sc
-
-search = sc.code_search(query="test", sources=["BitBucket", "CodePlex"])
+sc = Searchcode(user_agent="My-Searchcode-script")
+search = sc.search(query="test", sources=["BitBucket", "CodePlex"])
 
 for result in search.results:
     print(result.filename)
 ```
 
-#### Filter by Lines of Code (Between 500 and 1000)
+#### CLI
+
+```commandline
+searchcode test --sources bitbucket,codeplex
+```
+
+___
+
+### Filter by Lines of Code (Between 500 and 1000)
+
+#### SDK
 
 ```python
 
-import searchcode as sc
+from searchcode import Searchcode
 
-search = sc.code_search(query="test", lines_of_code_gt=500, lines_of_code_lt=1000)
+sc = Searchcode(user_agent="My-Searchcode-script")
+search = sc.search(query="test", lines_of_code_gt=500, lines_of_code_lt=1000)
 
 for result in search.results:
     print(result)
 ```
 
-#### With Callback Function (JSONP only)
+#### CLI
+
+```commandline
+searchcode test --lines-of-code-gt 500 --lines-of-code-lt 1000
+```
+
+___
+
+### With Callback Function (JSONP only)
+
+#### SDK
 
 ```python
-import searchcode as sc
+from searchcode import Searchcode
 
-search = sc.code_search(query="test", callback="myCallback")
+sc = Searchcode(user_agent="My-Searchcode-script")
+search = sc.search(query="test", callback="myCallback")
 print(search)
 ```
 
-#### Response Attribute Definitions
+#### CLI
+
+```commandline
+searchcode test --callback myCallback
+```
+
+### Response Attribute Definitions
 
 | Attribute            | Description                                                                                                                                                                                               |
 |----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -124,9 +192,13 @@ print(search)
 | **md5hash**          | Calculated MD5 hash of the file's contents.                                                                                                                                                               |
 | **lines**            | Contains line numbers and lines which match the `searchterm`. Lines immediately before and after the match are included. If only the filename matches, up to the first 15 lines of the file are returned. |
 
+___
+
 ### Code Result
 
 Returns the raw data from a code file given the code id which can be found as the `id` in a code search result.
+
+#### SDK
 
 #### Params
 
@@ -134,10 +206,17 @@ Returns the raw data from a code file given the code id which can be found as th
 
 ```python
 
-import searchcode as sc
+from searchcode import Searchcode
 
-code = sc.code_result(4061576)
+sc = Searchcode(user_agent="My-Searchcode-script")
+code = sc.code(4061576)
 print(code)
+```
+
+#### CLI
+
+```commandline
+searchode code 4061576
 ```
 
 ## About Searchcode
@@ -148,7 +227,7 @@ helping you find real world examples of functions, API's and libraries in 243 la
 
 [Learn more](https://searchcode.com/about)
 
-## Acknowledgements
+## Credits
 
 This SDK is developed and maintained by [Ritchie Mwewa](https://gravatar.com/rly0nheart), in collaboration
 with [Ben Boyter](https://boyter.org/about/), the creator of [Searchcode.com](https://searchcode.com).
