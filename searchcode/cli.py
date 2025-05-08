@@ -17,7 +17,7 @@ __all__ = ["cli"]
 @click.group()
 def cli():
     """
-    Searchcode: Simple comprehensive code search.
+    Searchcode: Simple, comprehensive code search.
     """
     ...
 

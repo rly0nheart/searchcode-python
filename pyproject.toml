@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "searchcode"
 version = "0.3.0"
-description = "Python SDK and CLI utility for Searchcode."
+description = "Simple, comprehensive code search."
 authors = ["Ritchie Mwewa <rly0nheart@duck.com>"]
 license = "GPLv3+"
 readme = "README.md"
