@@ -1,6 +1,5 @@
 import typing as t
 from platform import python_version, platform
-from types import SimpleNamespace
 
 import requests
 
@@ -25,7 +24,7 @@ class Searchcode:
         lines_of_code_gt: t.Optional[int] = None,
         lines_of_code_lt: t.Optional[int] = None,
         callback: t.Optional[str] = None,
-    ) -> t.Union[SimpleNamespace, str]:
+    ) -> t.Union[t.Dict, str]:
         """
         Searches and returns code snippets matching the query.
 
@@ -54,8 +53,8 @@ class Searchcode:
         :type lines_of_code_lt: int
         :param callback: Callback function (JSONP only)
         :type callback: str
-        :return: The search results as a SimpleNamespace object.
-        :rtype: SimpleNamespace
+        :return: The search results as a Dict object.
+        :rtype: Dict
         """
 
         results: t.List = []
@@ -76,11 +75,13 @@ class Searchcode:
                 *[("lan", language_id) for language_id in language_ids],
                 *[("src", source_id) for source_id in source_ids],
             ],
-            is_callback=callback,
+            callback=callback,
         )
 
-        response["results"] = response.get("results")[:per_page]
-        return self.__response_to_namespace_obj(response=response)
+        if not callback:
+            response["results"] = response.get("results", [])[:per_page]
+
+        return response
 
     def code(self, __id: int) -> str:
         """
@@ -115,7 +116,7 @@ class Searchcode:
         self,
         endpoint: str,
         params: t.Optional[t.List[t.Tuple[str, str]]] = None,
-        is_callback: str = None,
+        callback: str = None,
     ) -> t.Union[t.Dict, t.List, str]:
         """
         (Private function) Sends a GET request to the specified endpoint with the given headers and parameters.
@@ -138,30 +139,4 @@ class Searchcode:
             },
         )
         response.raise_for_status()
-        return response.text if is_callback else response.json()
-
-    def __response_to_namespace_obj(
-        self, response: t.Union[t.List[t.Dict], t.Dict]
-    ) -> t.Union[t.List[SimpleNamespace], SimpleNamespace, t.List[t.Dict], t.Dict]:
-        """
-        (Private function) Recursively converts the API response into a SimpleNamespace object(s).
-
-        :param response: The object to convert, either a dictionary or a list of dictionaries.
-        :type response: Union[List[Dict], Dict]
-        :return: A SimpleNamespace object or list of SimpleNamespace objects.
-        :rtype: Union[List[SimpleNamespace], SimpleNamespace, None]
-        """
-
-        if isinstance(response, t.Dict):
-            return SimpleNamespace(
-                **{
-                    key: self.__response_to_namespace_obj(response=value)
-                    for key, value in response.items()
-                }
-            )
-        elif isinstance(response, t.List):
-            return [
-                self.__response_to_namespace_obj(response=item) for item in response
-            ]
-        else:
-            return response
+        return response.text if callback else response.json()
