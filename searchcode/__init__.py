@@ -1,3 +1,3 @@
-from ._main import *
+from .api import Searchcode
 
-__all__ = ["code_result", "code_search"]
+__all__ = ["Searchcode"]

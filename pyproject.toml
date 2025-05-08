@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "searchcode"
-version = "0.2.3"
-description = "Python SDK for Searchcode."
+version = "0.3.0"
+description = "Python SDK and CLI utility for Searchcode."
 authors = ["Ritchie Mwewa <rly0nheart@duck.com>"]
 license = "GPLv3+"
 readme = "README.md"
@@ -19,6 +19,8 @@ classifiers = [
 [tool.poetry.dependencies]
 python = "^3.10"
 requests = "^2.32.2"
+rich-click = "^1.8.8"
+whats-that-code = "^0.2.0"
 
 [tool.poetry.group.dev.dependencies]
 flake8 = "^7.1.2"
@@ -27,3 +29,6 @@ pytest = "^8.3.5"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+searchcode = "searchcode.cli:cli"
