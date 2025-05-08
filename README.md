@@ -9,7 +9,7 @@ searchcode --help
 from searchcode import Searchcode
 
 sc = Searchcode(user_agent="My-Searchcode-script")
-search = sc.search(query="test")
+search = sc.search(query="import module")
 
 for result in search.results:
     print(result)
@@ -55,7 +55,7 @@ Queries the code index and returns at most 100 results.
 #### CLI
 
 ```commandline
-searchcode test
+searchcode "import module"
 ```
 
 #### SDK
@@ -64,7 +64,7 @@ searchcode test
 from searchcode import Searchcode
 
 sc = Searchcode(user_agent="My-Searchcode-script")
-search = sc.search(query="test")
+search = sc.search(query="import module")
 
 for result in search.results:
     print(result)
@@ -77,7 +77,7 @@ for result in search.results:
 #### CLI
 
 ````commandline
-searchcode test --languages java,javascript
+searchcode "import module" --languages java,javascript
 ````
 
 #### SDK
@@ -86,7 +86,7 @@ searchcode test --languages java,javascript
 from searchcode import Searchcode
 
 sc = Searchcode(user_agent="My-Searchcode-script")
-search = sc.search(query="test", languages=["Java", "JavaScript"])
+search = sc.search(query="import module", languages=["Java", "JavaScript"])
 
 for result in search.results:
     print(result.language)
@@ -99,7 +99,7 @@ ___
 #### CLI
 
 ```commandline
-searchcode test --sources bitbucket,codeplex
+searchcode "import module" --sources bitbucket,codeplex
 ```
 
 #### SDK
@@ -108,7 +108,7 @@ searchcode test --sources bitbucket,codeplex
 from searchcode import Searchcode
 
 sc = Searchcode(user_agent="My-Searchcode-script")
-search = sc.search(query="test", sources=["BitBucket", "CodePlex"])
+search = sc.search(query="import module", sources=["BitBucket", "CodePlex"])
 
 for result in search.results:
     print(result.filename)
@@ -121,7 +121,7 @@ ___
 #### CLI
 
 ```commandline
-searchcode test --lines-of-code-gt 500 --lines-of-code-lt 1000
+searchcode "import module" --lines-of-code-gt 500 --lines-of-code-lt 1000
 ```
 
 #### SDK
@@ -131,7 +131,7 @@ searchcode test --lines-of-code-gt 500 --lines-of-code-lt 1000
 from searchcode import Searchcode
 
 sc = Searchcode(user_agent="My-Searchcode-script")
-search = sc.search(query="test", lines_of_code_gt=500, lines_of_code_lt=1000)
+search = sc.search(query="import module", lines_of_code_gt=500, lines_of_code_lt=1000)
 
 for result in search.results:
     print(result)
@@ -144,7 +144,7 @@ ___
 #### CLI
 
 ```commandline
-searchcode test --callback myCallback
+searchcode "import module" --callback myCallback
 ```
 
 #### SDK
@@ -153,7 +153,7 @@ searchcode test --callback myCallback
 from searchcode import Searchcode
 
 sc = Searchcode(user_agent="My-Searchcode-script")
-search = sc.search(query="test", callback="myCallback")
+search = sc.search(query="import module", callback="myCallback")
 print(search)
 ```
 

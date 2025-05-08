@@ -5,8 +5,8 @@ sc = Searchcode(user_agent="Pytest")
 
 def test_filter_by_extension():
     search = sc.search("gsub ext:erb")
-    for result in search.results:
-        assert result.filename.endswith(".erb")
+    for result in search.get("results"):
+        assert result.get("filename").endswith(".erb")
 
 
 def test_code_result():

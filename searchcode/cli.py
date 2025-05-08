@@ -1,8 +1,8 @@
-from types import SimpleNamespace
-from typing import Optional, List
+from typing import Optional, List, Dict
 
 import rich_click as click
 from rich import print as rprint, box
+from rich.pretty import pprint
 from rich.syntax import Syntax
 from rich.table import Table
 from whats_that_code.election import guess_language_all_methods
@@ -17,14 +17,16 @@ __all__ = ["cli"]
 @click.group()
 def cli():
     """
-    Searchcode: Simple, comprehensive code search.
+    Searchcode CLI
+
+    Simple, comprehensive code search.
     """
     ...
 
 
 @cli.command()
 @click.argument("query", type=str)
-@click.option("--pretty", type=bool, help="Return results in raw JSON format.")
+@click.option("--pretty", help="Return results in raw JSON format.", is_flag=True)
 @click.option(
     "--page",
     type=int,
@@ -57,6 +59,11 @@ def cli():
     type=str,
     help="A comma-separated list of code languages to filter results.",
 )
+@click.option(
+    "--callback",
+    type=str,
+    help="callback function (returns JSONP)",
+)
 def search(
     query: str,
     page: int = 0,
@@ -66,11 +73,12 @@ def search(
     lines_of_code_gt: Optional[int] = None,
     languages: Optional[str] = None,
     sources: Optional[str] = None,
+    callback: Optional[str] = None,
 ):
     """
     Query the code index and (returns 100 results by default).
 
-    e.g., searchcode search "gsub ext:erb" --pretty
+    e.g., searchcode search "import module"
     """
     languages = languages.split(",") if languages else None
     sources = sources.split(",") if sources else None
@@ -83,11 +91,18 @@ def search(
         sources=sources,
         lines_of_code_lt=lines_of_code_lt,
         lines_of_code_gt=lines_of_code_gt,
+        callback=callback,
     )
-    if pretty:
-        rprint(results)
-    else:
-        print_table(records=results.results, ignore_keys=["lines"])
+
+    (
+        __print_jsonp(jsonp=results)
+        if callback
+        else (
+            pprint(results)
+            if pretty
+            else __print_table(records=results["results"], ignore_keys=["lines"])
+        )
+    )
 
 
 @cli.command()
@@ -105,9 +120,9 @@ def code(id: int):
         rprint(syntax)
 
 
-def print_table(records: List[SimpleNamespace], ignore_keys: List[str] = None) -> None:
+def __print_table(records: List[Dict], ignore_keys: List[str] = None) -> None:
     """
-    Creates a rich table from a list of SimpleNamespace objects,
+    Creates a rich table from a list of dict objects,
     ignoring specified keys.
 
     :param records: List of SimpleNamespace instances.
@@ -115,14 +130,14 @@ def print_table(records: List[SimpleNamespace], ignore_keys: List[str] = None) -
     :return: None. Prints the table using rich.
     """
     if not records:
-        raise ValueError("Data must be a non-empty list of SimpleNamespace objects.")
+        raise ValueError("Data must be a non-empty list of dict objects.")
 
     ignore_keys = ignore_keys or []
 
     # Collect all unique keys across all records, excluding ignored ones
     all_keys = set()
     for record in records:
-        all_keys.update(key for key in record.__dict__.keys() if key not in ignore_keys)
+        all_keys.update(key for key in record.keys() if key not in ignore_keys)
 
     columns = sorted(all_keys)
 
@@ -133,8 +148,18 @@ def print_table(records: List[SimpleNamespace], ignore_keys: List[str] = None) -
         table.add_column(column.capitalize(), style=style)
 
     for record in records:
-        data = record.__dict__
+        data = record
         row = [str(data.get(column, "")) for column in columns]
         table.add_row(*row)
 
     rprint(table)
+
+
+def __print_jsonp(jsonp: str) -> None:
+    """
+    Pretty-prints a raw JSONP string.
+
+    :param jsonp: A complete JSONP string.
+    """
+    syntax = Syntax(jsonp, "text", line_numbers=True)
+    rprint(syntax)
