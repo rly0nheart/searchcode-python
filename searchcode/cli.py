@@ -26,7 +26,7 @@ def cli():
 
 @cli.command()
 @click.argument("query", type=str)
-@click.option("--pretty", type=bool, help="Return results in raw JSON format.")
+@click.option("--pretty", help="Return results in raw JSON format.", is_flag=True)
 @click.option(
     "--page",
     type=int,
