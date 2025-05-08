@@ -78,7 +78,7 @@ def search(
     """
     Query the code index and (returns 100 results by default).
 
-    e.g., searchcode search "import module" --pretty
+    e.g., searchcode search "import module"
     """
     languages = languages.split(",") if languages else None
     sources = sources.split(",") if sources else None
