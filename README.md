@@ -1,4 +1,4 @@
-<p align="center"><img src="https://github.com/user-attachments/assets/d28934e1-a1ab-4b6e-9d12-d64067a65a60"><br>Python SDK and CLI utility for <a href="https://searchcode.com">Searchcode</a>.<br><i>Search 75 billion lines of code from 40 million projects</i></p>
+<p align="center"><img src="https://github.com/user-attachments/assets/bce54aa5-7f20-435d-a419-72e8e779105a"><br>Python SDK and CLI utility for <a href="https://searchcode.com">Searchcode</a>.<br><i>Search 75 billion lines of code from 40 million projects</i></p>
 <p align="center"></p>
 
 ```commandline
