@@ -2,18 +2,23 @@
 <p align="center"></p>
 
 ```commandline
-searchcode --help
+searchcode search "import module"
+```
+
+Or simply:
+
+```commandline
+sc search "import module"
 ```
 
 ```python
+from pprint import pprint
 from searchcode import Searchcode
 
 sc = Searchcode(user_agent="My-Searchcode-script")
 search = sc.search(query="import module")
 
-results = search.get("results")
-for result in results:
-    print(result)
+pprint(search)
 ```
 
 ## Installation
@@ -62,14 +67,13 @@ searchcode "import module"
 #### SDK
 
 ```python
+from pprint import pprint
 from searchcode import Searchcode
 
 sc = Searchcode(user_agent="My-Searchcode-script")
 search = sc.search(query="import module")
 
-results = search.get("results")
-for result in results:
-    print(result)
+pprint(search)
 ```
 
 ---
@@ -90,8 +94,7 @@ from searchcode import Searchcode
 sc = Searchcode(user_agent="My-Searchcode-script")
 search = sc.search(query="import module", languages=["Java", "JavaScript"])
 
-results = search.get("results")
-for result in results:
+for result in search.get("results"):
     print(result.language)
 ```
 
@@ -113,8 +116,7 @@ from searchcode import Searchcode
 sc = Searchcode(user_agent="My-Searchcode-script")
 search = sc.search(query="import module", sources=["BitBucket", "CodePlex"])
 
-results = search.get("results")
-for result in results:
+for result in search.get("results"):
     print(result.filename)
 ```
 
@@ -136,9 +138,8 @@ from searchcode import Searchcode
 
 sc = Searchcode(user_agent="My-Searchcode-script")
 search = sc.search(query="import module", lines_of_code_gt=500, lines_of_code_lt=1000)
-results = search.get("results")
 
-for result in results:
+for result in search.get("results"):
     print(result)
 ```
 
