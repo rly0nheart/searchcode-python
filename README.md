@@ -1,5 +1,7 @@
-<p align="center"><img src="https://github.com/user-attachments/assets/bce54aa5-7f20-435d-a419-72e8e779105a"><br>Python SDK and CLI utility for <a href="https://searchcode.com">Searchcode</a>.<br><i>Search 75 billion lines of code from 40 million projects</i></p>
+<p align="center"><img src="https://github.com/user-attachments/assets/bce54aa5-7f20-435d-a419-72e8e779105a" width=300 height=60><br>Python SDK and CLI utility for <a href="https://searchcode.com">Searchcode</a>.<br><i>Search 75 billion lines of code from 40 million projects</i></p>
 <p align="center"></p>
+
+---
 
 ```commandline
 searchcode search "import module"
