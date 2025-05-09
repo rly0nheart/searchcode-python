@@ -18,7 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 from .api import Searchcode
 
 __pkg__ = "searchcode"
-__version__ = "0.4.0"
+__version__ = "0.4.1"
 __author__ = "Ritchie Mwewa"
 
 
