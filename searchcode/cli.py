@@ -1,4 +1,4 @@
-from typing import Optional, List, Dict
+import typing as t
 
 import rich_click as click
 from rich import print as rprint, box
@@ -17,7 +17,7 @@ __all__ = ["cli"]
 @click.group()
 def cli():
     """
-    Searchcode CLI
+    Searchcode
 
     Simple, comprehensive code search.
     """
@@ -69,11 +69,11 @@ def search(
     page: int = 0,
     per_page: int = 100,
     pretty: bool = False,
-    lines_of_code_lt: Optional[int] = None,
-    lines_of_code_gt: Optional[int] = None,
-    languages: Optional[str] = None,
-    sources: Optional[str] = None,
-    callback: Optional[str] = None,
+    lines_of_code_lt: t.Optional[int] = None,
+    lines_of_code_gt: t.Optional[int] = None,
+    languages: t.Optional[str] = None,
+    sources: t.Optional[str] = None,
+    callback: t.Optional[str] = None,
 ):
     """
     Query the code index and (returns 100 results by default).
@@ -120,12 +120,12 @@ def code(id: int):
         rprint(syntax)
 
 
-def __print_table(records: List[Dict], ignore_keys: List[str] = None) -> None:
+def __print_table(records: t.List[t.Dict], ignore_keys: t.List[str] = None) -> None:
     """
     Creates a rich table from a list of dict objects,
     ignoring specified keys.
 
-    :param records: List of SimpleNamespace instances.
+    :param records: List of dict objects.
     :param ignore_keys: List of keys to exclude from the table.
     :return: None. Prints the table using rich.
     """

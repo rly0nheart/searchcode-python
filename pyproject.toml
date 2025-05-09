@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "searchcode"
-version = "0.3.0"
+version = "0.3.1"
 description = "Simple, comprehensive code search."
 authors = ["Ritchie Mwewa <rly0nheart@duck.com>"]
 license = "GPLv3+"
@@ -31,4 +31,5 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
+sc = "searchcode.cli:cli" # shortened command
 searchcode = "searchcode.cli:cli"

@@ -57,7 +57,6 @@ class Searchcode:
         :rtype: Dict
         """
 
-        results: t.List = []
         language_ids = (
             [] if not languages else get_language_ids(language_names=languages)
         )
@@ -97,7 +96,7 @@ class Searchcode:
         return response.get("code")
 
     # This is deprecated (for now).
-    # def related(_id: int) -> SimpleNamespace:
+    # def related(_id: int) -> Dict:
     #    """
     #    Returns an array of results given a searchcode unique code id which are considered to be duplicates.
     #
@@ -105,8 +104,8 @@ class Searchcode:
 
     #    :param _id: The unique identifier of the code result.
     #    :type _id: int
-    #    :return: A list of related results as a SimpleNamespace object.
-    #    :rtype: SimpleNamespace
+    #    :return: A list of related results as a dictobject.
+    #    :rtype: Dict
     #    """
 
     #    response = _get_response(endpoint=f"{_BASE_API_ENDPOINT}/related_results/{_id}")

@@ -1,9 +1,9 @@
-from typing import Literal, List
+import typing as t
 
 
 __all__ = ["CODE_LANGUAGES", "CODE_SOURCES", "get_language_ids", "get_source_ids"]
 
-CODE_SOURCES = Literal[
+CODE_SOURCES = t.Literal[
     "Google Code",
     "GitHub",
     "BitBucket",
@@ -21,7 +21,7 @@ CODE_SOURCES = Literal[
     "Sr.ht",
 ]
 
-CODE_LANGUAGES = Literal[
+CODE_LANGUAGES = t.Literal[
     "XAML",
     "ASP.NET",
     "HTML",
@@ -370,7 +370,7 @@ CODE_LANGUAGES = Literal[
 ]
 
 
-def get_source_ids(source_names: List[CODE_SOURCES]) -> List[int]:
+def get_source_ids(source_names: t.List[CODE_SOURCES]) -> t.List[int]:
     """
     Gets a list of source IDs corresponding to the given source names.
 
@@ -401,7 +401,7 @@ def get_source_ids(source_names: List[CODE_SOURCES]) -> List[int]:
     return [sources[name] for name in source_names if name in sources]
 
 
-def get_language_ids(language_names: List[CODE_LANGUAGES]) -> List:
+def get_language_ids(language_names: t.List[CODE_LANGUAGES]) -> t.List:
     """
     Gets a list of language IDs corresponding to the given language names.
 
