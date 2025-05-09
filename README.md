@@ -60,13 +60,13 @@ Queries the code index and returns at most 100 results.
 
 ### Code Search Without Filters
 
-#### CLI
+#### Command-Line Interface
 
 ```commandline
 searchcode "import module"
 ```
 
-#### SDK
+#### In Code
 
 ```python
 from pprint import pprint
@@ -82,13 +82,13 @@ pprint(search)
 
 ### Filter by Language (Java and JavaScript)
 
-#### CLI
+#### Command-Line Interface
 
 ````commandline
 searchcode "import module" --languages java,javascript
 ````
 
-#### SDK
+#### In Code
 
 ```python
 from searchcode import Searchcode
@@ -104,13 +104,13 @@ ___
 
 ### Filter by Source (BitBucket and CodePlex)
 
-#### CLI
+#### Command-Line Interface
 
 ```commandline
 searchcode "import module" --sources bitbucket,codeplex
 ```
 
-#### SDK
+#### In Code
 
 ```python
 from searchcode import Searchcode
@@ -126,13 +126,13 @@ ___
 
 ### Filter by Lines of Code (Between 500 and 1000)
 
-#### CLI
+#### Command-Line Interface
 
 ```commandline
 searchcode "import module" --lines-of-code-gt 500 --lines-of-code-lt 1000
 ```
 
-#### SDK
+#### In Code
 
 ```python
 
@@ -149,13 +149,13 @@ ___
 
 ### With Callback Function (JSONP only)
 
-#### CLI
+#### Command-Line Interface
 
 ```commandline
 searchcode "import module" --callback myCallback
 ```
 
-#### SDK
+#### In Code
 
 ```python
 from searchcode import Searchcode
@@ -204,13 +204,13 @@ ___
 
 Returns the raw data from a code file given the code id which can be found as the `id` in a code search result.
 
-#### CLI
+#### Command-Line Interface
 
 ```commandline
 searchode code 4061576
 ```
 
-#### SDK
+#### In Code
 
 #### Params
 
