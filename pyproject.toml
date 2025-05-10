@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "searchcode"
-version = "0.4.3"
+version = "0.4.4"
 description = "Simple, comprehensive code search."
 authors = ["Ritchie Mwewa <rly0nheart@duck.com>"]
 license = "GPLv3+"

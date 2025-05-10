@@ -67,13 +67,11 @@ def licence(
         console.print(
             License.terms_and_conditions,
             justify="center",
-            style="on #272822",  # monokai themed background :)
         )
     elif warranty:
         console.print(
             License.warranty,
             justify="center",
-            style="on #272822",
         )
     else:
         click.echo(ctx.get_help())
@@ -179,7 +177,9 @@ def code(id: int):
         if code_data:
             status.update("Determining code language")
             language = guess_language_all_methods(code=code_data)
-            syntax = Syntax(code=code_data, lexer=language, line_numbers=True)
+            syntax = Syntax(
+                code=code_data, lexer=language, line_numbers=True, theme="dracula"
+            )
             console.print(syntax)
 
 
@@ -228,7 +228,11 @@ def __print_panels(data: t.List[t.Dict]):
         )
 
         syntax = Syntax(
-            code=code_string, lexer=language, word_wrap=False, indent_guides=True
+            code=code_string,
+            lexer=language,
+            word_wrap=False,
+            indent_guides=True,
+            theme="dracula",
         )
 
         panel = Panel(
