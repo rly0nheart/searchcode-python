@@ -15,10 +15,12 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+from datetime import datetime
+
 from .api import Searchcode
 
 __pkg__ = "searchcode"
-__version__ = "0.4.2"
+__version__ = "0.4.4"
 __author__ = "Ritchie Mwewa"
 
 
@@ -576,7 +578,7 @@ copy of the Program in return for a fee.
 
 [bold]END OF TERMS AND CONDITIONS[/]
 """
-    warranty: str = """
+    warranty: str = f"""
     Copyright (C) {datetime.today().year}  {__author__}
 
     This program is free software: you can redistribute it and/or modify

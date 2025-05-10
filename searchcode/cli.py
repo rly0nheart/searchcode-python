@@ -52,9 +52,12 @@ def cli():
 @cli.command("license")
 @click.option("--conditions", help="License terms and conditions.", is_flag=True)
 @click.option("--warranty", help="License warranty.", is_flag=True)
-def licence(conditions: t.Optional[bool], warranty: t.Optional[bool]):
+@click.pass_context
+def licence(
+    ctx: click.Context, conditions: t.Optional[bool], warranty: t.Optional[bool]
+):
     """
-    Show license
+    Show license information
     """
     __clear_screen()
     __update_window_title(
@@ -66,12 +69,14 @@ def licence(conditions: t.Optional[bool], warranty: t.Optional[bool]):
             justify="center",
             style="on #272822",  # monokai themed background :)
         )
-    if warranty:
+    elif warranty:
         console.print(
             License.warranty,
             justify="center",
             style="on #272822",
         )
+    else:
+        click.echo(ctx.get_help())
 
 
 @cli.command()
