@@ -15,7 +15,7 @@ sc search "import module"
 
 ```python
 from pprint import pprint
-from searchcode import Searchcode
+from src.searchcode import Searchcode
 
 sc = Searchcode(user_agent="My-Searchcode-script")
 search = sc.search(query="import module")
@@ -70,7 +70,7 @@ searchcode "import module"
 
 ```python
 from pprint import pprint
-from searchcode import Searchcode
+from src.searchcode import Searchcode
 
 sc = Searchcode(user_agent="My-Searchcode-script")
 search = sc.search(query="import module")
@@ -92,7 +92,7 @@ searchcode "import module" --languages java,javascript
 
 ```python
 from pprint import pprint
-from searchcode import Searchcode
+from src.searchcode import Searchcode
 
 sc = Searchcode(user_agent="My-Searchcode-script")
 search = sc.search(query="import module", languages=["Java", "JavaScript"])
@@ -115,7 +115,7 @@ searchcode "import module" --sources bitbucket,codeplex
 
 ```python
 from pprint import pprint
-from searchcode import Searchcode
+from src.searchcode import Searchcode
 
 sc = Searchcode(user_agent="My-Searchcode-script")
 search = sc.search(query="import module", sources=["BitBucket", "CodePlex"])
@@ -138,7 +138,7 @@ searchcode "import module" --lines-of-code-gt 500 --lines-of-code-lt 1000
 
 ```python
 from pprint import pprint
-from searchcode import Searchcode
+from src.searchcode import Searchcode
 
 sc = Searchcode(user_agent="My-Searchcode-script")
 search = sc.search(query="import module", lines_of_code_gt=500, lines_of_code_lt=1000)
@@ -161,7 +161,7 @@ searchcode "import module" --callback myCallback
 
 ```python
 from pprint import pprint
-from searchcode import Searchcode
+from src.searchcode import Searchcode
 
 sc = Searchcode(user_agent="My-Searchcode-script")
 search = sc.search(query="import module", callback="myCallback")
@@ -222,7 +222,7 @@ searchode code 4061576
 
 ```python
 
-from searchcode import Searchcode
+from src.searchcode import Searchcode
 
 sc = Searchcode(user_agent="My-Searchcode-script")
 data = sc.code(4061576)
