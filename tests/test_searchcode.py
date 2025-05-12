@@ -22,14 +22,18 @@ sc = Searchcode(user_agent="Pytest")
 
 def test_filter_by_extension():
     search = sc.search("gsub ext:erb")
-    for result in search.get("results"):
-        assert result.get("filename").endswith(".erb")
+    for result in search.results:
+        assert result.filename.endswith(".erb")
 
 
 def test_code_result():
-    code = sc.code(4061576)
-    assert isinstance(code, str)
-    assert "This file is part of Quake III Arena source code" in code
+    data = sc.code(4061576)
+    lines = data.code
+    language = data.language
+
+    assert isinstance(lines, str)
+    assert "This file is part of Quake III Arena source code" in lines
+    assert language == "C"
 
 
 # deprecated (for now)

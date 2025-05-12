@@ -17,12 +17,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import typing as t
 from platform import python_version, platform
+from types import SimpleNamespace
 
 import requests
 
 from .filters import CODE_LANGUAGES, CODE_SOURCES, get_language_ids, get_source_ids
-
-BASE_API_ENDPOINT = "https://searchcode.com/api"
 
 __all__ = ["Searchcode"]
 
@@ -30,6 +29,7 @@ __all__ = ["Searchcode"]
 class Searchcode:
     def __init__(self, user_agent: str):
         self.user_agent = user_agent
+        self.__base_api_endpoint: str = "https://searchcode.com/api"
 
     def search(
         self,
@@ -41,7 +41,7 @@ class Searchcode:
         lines_of_code_gt: t.Optional[int] = None,
         lines_of_code_lt: t.Optional[int] = None,
         callback: t.Optional[str] = None,
-    ) -> t.Union[t.Dict, str]:
+    ) -> t.Union[SimpleNamespace, str]:
         """
         Searches and returns code snippets matching the query.
 
@@ -80,7 +80,7 @@ class Searchcode:
         source_ids = [] if not sources else get_source_ids(source_names=sources)
 
         response = self.__send_request(
-            endpoint=f"{BASE_API_ENDPOINT}/{'jsonp_codesearch_I' if callback else 'codesearch_I'}/",
+            endpoint=f"{self.__base_api_endpoint}/{'jsonp_codesearch_I' if callback else 'codesearch_I'}/",
             params=[
                 ("q", query),
                 ("p", page),
@@ -95,22 +95,25 @@ class Searchcode:
         )
 
         if not callback:
-            response["results"] = response.get("results", [])[:per_page]
+            response = self.__to_namespace_obj(response=response)
+            response.results = response.results[:per_page]
 
         return response
 
-    def code(self, __id: int) -> str:
+    def code(self, __id: int) -> SimpleNamespace:
         """
         Returns the raw data from a code file given the code ID which can be found as the `id` in a code search result.
 
         :param __id: The unique identifier of the code result.
         :type __id: int
-        :return: Raw code result data.
-        :rtype: str
+        :return: SimpleNamespace object containing code file data.
+        :rtype: SimpleNamespace
         """
 
-        response = self.__send_request(endpoint=f"{BASE_API_ENDPOINT}/result/{__id}")
-        return response.get("code")
+        response = self.__send_request(
+            endpoint=f"{self.__base_api_endpoint}/result/{__id}"
+        )
+        return self.__to_namespace_obj(response=response)
 
     # This is deprecated (for now).
     # def related(_id: int) -> Dict:
@@ -156,3 +159,28 @@ class Searchcode:
         )
         response.raise_for_status()
         return response.text if callback else response.json()
+
+    def __to_namespace_obj(
+        self,
+        response: t.Union[t.List[t.Dict], t.Dict],
+    ) -> t.Union[t.List[SimpleNamespace], SimpleNamespace, t.List[t.Dict], t.Dict]:
+        """
+        Recursively converts the API response into a SimpleNamespace object(s).
+
+        :param response: The object to convert, either a dictionary or a list of dictionaries.
+        :type response: Union[List[Dict], Dict]
+        :return: A SimpleNamespace object or list of SimpleNamespace objects.
+        :rtype: Union[List[SimpleNamespace], SimpleNamespace, None]
+        """
+
+        if isinstance(response, t.Dict):
+            return SimpleNamespace(
+                **{
+                    key: self.__to_namespace_obj(response=value)
+                    for key, value in response.items()
+                }
+            )
+        elif isinstance(response, t.List):
+            return [self.__to_namespace_obj(response=item) for item in response]
+        else:
+            return response

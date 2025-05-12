@@ -18,6 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import os
 import subprocess
 import typing as t
+from types import SimpleNamespace
 
 import rich_click as click
 from rich import box
@@ -25,7 +26,6 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.pretty import pprint
 from rich.syntax import Syntax
-from whats_that_code.election import guess_language_all_methods
 
 from . import License, __pkg__, __version__
 from .api import Searchcode
@@ -136,11 +136,13 @@ def search(
     __clear_screen()
     __update_window_title(text=query)
 
-    with console.status(f"Querying code index with [green]{query}[/]"):
+    with console.status(
+        f"Querying code index with search string: [green]{query}[/]..."
+    ):
         languages = languages.split(",") if languages else None
         sources = sources.split(",") if sources else None
 
-        results = sc.search(
+        response = sc.search(
             query=query,
             page=page,
             per_page=per_page,
@@ -152,13 +154,9 @@ def search(
         )
 
         (
-            __print_jsonp(jsonp=results)
+            __print_jsonp(jsonp=response)
             if callback
-            else (
-                pprint(results)
-                if pretty
-                else __print_panels(data=results.get("results"))
-            )
+            else (pprint(response) if pretty else __print_panels(data=response.results))
         )
 
 
@@ -172,13 +170,13 @@ def code(id: int):
     """
     __clear_screen()
     __update_window_title(text=str(id))
-    with console.status(f"Retrieving code data for [cyan]{id}[/]") as status:
-        code_data = sc.code(id)
-        if code_data:
-            status.update("Determining code language")
-            language = guess_language_all_methods(code=code_data)
+    with console.status(f"Fetching data for code file with ID: [cyan]{id}[/]..."):
+        data = sc.code(id)
+        lines = data.code
+        language = data.language
+        if lines:
             syntax = Syntax(
-                code=code_data, lexer=language, line_numbers=True, theme="dracula"
+                code=lines, lexer=language, line_numbers=True, theme="dracula"
             )
             console.print(syntax)
 
@@ -193,7 +191,7 @@ def __print_jsonp(jsonp: str) -> None:
     console.print(syntax)
 
 
-def __print_panels(data: t.List[t.Dict]):
+def __print_panels(data: t.List[SimpleNamespace]):
     """
     Render a list of code records as rich panels with syntax highlighting.
     Line numbers are preserved and displayed alongside code content.
@@ -218,14 +216,13 @@ def __print_panels(data: t.List[t.Dict]):
         return "\n".join(numbered_lines)
 
     for item in data:
-        filename = item.get("filename", "Unknown")
-        repo = item.get("repo", "Unknown")
-        language = item.get("language", "text")
-        lines_count = item.get("linescount", "??")
+        filename = item.filename
+        repo = item.repo
+        language = item.language
+        lines_count = item.linescount
+        lines = item.lines
 
-        code_string = extract_code_string_with_linenumbers(
-            lines_dict=item.get("lines", {})
-        )
+        code_string = extract_code_string_with_linenumbers(lines_dict=lines.__dict__)
 
         syntax = Syntax(
             code=code_string,
