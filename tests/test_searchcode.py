@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from src.searchcode import Searchcode
+from searchcode import Searchcode
 
 sc = Searchcode(user_agent="Pytest")
 
