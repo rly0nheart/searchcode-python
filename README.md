@@ -91,13 +91,14 @@ searchcode "import module" --languages java,javascript
 #### In Code
 
 ```python
+from pprint import pprint
 from searchcode import Searchcode
 
 sc = Searchcode(user_agent="My-Searchcode-script")
 search = sc.search(query="import module", languages=["Java", "JavaScript"])
 
-for result in search.get("results"):
-    print(result.language)
+for result in search.results:
+    pprint(result.language)
 ```
 
 ___
@@ -113,13 +114,14 @@ searchcode "import module" --sources bitbucket,codeplex
 #### In Code
 
 ```python
+from pprint import pprint
 from searchcode import Searchcode
 
 sc = Searchcode(user_agent="My-Searchcode-script")
 search = sc.search(query="import module", sources=["BitBucket", "CodePlex"])
 
-for result in search.get("results"):
-    print(result.filename)
+for result in search.results:
+    pprint(result.filename)
 ```
 
 ___
@@ -135,14 +137,14 @@ searchcode "import module" --lines-of-code-gt 500 --lines-of-code-lt 1000
 #### In Code
 
 ```python
-
+from pprint import pprint
 from searchcode import Searchcode
 
 sc = Searchcode(user_agent="My-Searchcode-script")
 search = sc.search(query="import module", lines_of_code_gt=500, lines_of_code_lt=1000)
 
-for result in search.get("results"):
-    print(result)
+for result in search.results:
+    pprint(result)
 ```
 
 ___
@@ -158,11 +160,13 @@ searchcode "import module" --callback myCallback
 #### In Code
 
 ```python
+from pprint import pprint
 from searchcode import Searchcode
 
 sc = Searchcode(user_agent="My-Searchcode-script")
 search = sc.search(query="import module", callback="myCallback")
-print(search)
+
+pprint(search)
 ```
 
 `
@@ -221,8 +225,10 @@ searchode code 4061576
 from searchcode import Searchcode
 
 sc = Searchcode(user_agent="My-Searchcode-script")
-code = sc.code(4061576)
-print(code)
+data = sc.code(4061576)
+
+print(data.language)
+print(data.code)
 ```
 
 ---

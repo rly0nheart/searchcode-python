@@ -20,7 +20,7 @@ from datetime import datetime
 from .api import Searchcode
 
 __pkg__ = "searchcode"
-__version__ = "0.4.4"
+__version__ = "0.5.0"
 __author__ = "Ritchie Mwewa"
 
 
