@@ -18,7 +18,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import typing as t
 
 import rich_click as click
-from rich.console import Console
 from rich.pretty import pprint
 from rich.syntax import Syntax
 
@@ -26,6 +25,7 @@ from . import License
 from .__lib import (
     __pkg__,
     __version__,
+    console,
     update_window_title,
     clear_screen,
     print_jsonp,
@@ -33,11 +33,8 @@ from .__lib import (
 )
 from .api import Searchcode
 
-sc = Searchcode(user_agent=f"{__pkg__}-sdk/cli")
-
 __all__ = ["cli"]
-
-console = Console(highlight=True)
+sc = Searchcode(user_agent=f"{__pkg__}-sdk/cli")
 
 
 @click.group()
@@ -139,9 +136,7 @@ def search(
     clear_screen()
     update_window_title(text=query)
 
-    with console.status(
-        f"Querying code index with search string: [green]{query}[/]..."
-    ):
+    with console.status(f"Querying code index: [green]{query}[/]"):
         languages = languages.split(",") if languages else None
         sources = sources.split(",") if sources else None
 
@@ -154,10 +149,6 @@ def search(
             lines_of_code_lt=lines_of_code_lt,
             lines_of_code_gt=lines_of_code_gt,
             callback=callback,
-        )
-
-        console.print(
-            f"🗸 Showing {len(response.results)} of {per_page} results for '{query}'"
         )
 
     (
@@ -177,7 +168,7 @@ def code(id: int):
     """
     clear_screen()
     update_window_title(text=str(id))
-    with console.status(f"Fetching data for code file with ID: [cyan]{id}[/]..."):
+    with console.status(f"Fetching code file: [cyan]{id}[/]"):
         data = sc.code(id)
         lines = data.code
         language = data.language

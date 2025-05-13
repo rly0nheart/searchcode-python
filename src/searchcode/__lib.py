@@ -10,7 +10,7 @@ from rich.syntax import Syntax
 
 from . import __pkg__, __version__
 
-console = Console()
+console = Console(highlight=True)
 
 
 def print_jsonp(jsonp: str) -> None:
