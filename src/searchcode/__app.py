@@ -122,8 +122,8 @@ def licence(
 )
 def search(
     query: str,
-    page: int = 0,
-    per_page: int = 100,
+    page: int,
+    per_page: int,
     pretty: bool = False,
     lines_of_code_lt: t.Optional[int] = None,
     lines_of_code_gt: t.Optional[int] = None,
@@ -156,11 +156,15 @@ def search(
             callback=callback,
         )
 
-        (
-            print_jsonp(jsonp=response)
-            if callback
-            else (pprint(response) if pretty else print_panels(data=response.results))
+        console.print(
+            f"🗸 Showing {len(response.results)} of {per_page} results for '{query}'"
         )
+
+    (
+        print_jsonp(jsonp=response)
+        if callback
+        else (pprint(response) if pretty else print_panels(data=response.results))
+    )
 
 
 @cli.command()

@@ -1,7 +1,6 @@
-<p align="center"><img src="https://searchcode.com/static/searchcode_logo.png" width=300 height=60><br>Python SDK and CLI utility for <a href="https://searchcode.com">Searchcode</a>.<br><i>Simple, comprehensive code search.</i></p>
+<p align="center">
+<img src="https://searchcode.com/static/searchcode_logo.png" width=300><br><strong>Searchcode SDK</strong>: Python library and CLI utility for <a href="https://searchcode.com">Searchcode</a>.<br><i>Simple, comprehensive code search.</i></p>
 <p align="center"></p>
-
----
 
 ```commandline
 searchcode search "import module"
@@ -15,7 +14,7 @@ sc search "import module"
 
 ```python
 from pprint import pprint
-from src.searchcode import Searchcode
+from searchcode import Searchcode
 
 sc = Searchcode(user_agent="My-Searchcode-script")
 search = sc.search(query="import module")
@@ -44,7 +43,7 @@ searchcode "import module"
 
 ```python
 from pprint import pprint
-from src.searchcode import Searchcode
+from searchcode import Searchcode
 
 sc = Searchcode(user_agent="My-Searchcode-script")
 search = sc.search(query="import module")
@@ -66,7 +65,7 @@ searchcode "import module" --languages java,javascript
 
 ```python
 from pprint import pprint
-from src.searchcode import Searchcode
+from searchcode import Searchcode
 
 sc = Searchcode(user_agent="My-Searchcode-script")
 search = sc.search(query="import module", languages=["Java", "JavaScript"])
@@ -89,7 +88,7 @@ searchcode "import module" --sources bitbucket,codeplex
 
 ```python
 from pprint import pprint
-from src.searchcode import Searchcode
+from searchcode import Searchcode
 
 sc = Searchcode(user_agent="My-Searchcode-script")
 search = sc.search(query="import module", sources=["BitBucket", "CodePlex"])
@@ -112,7 +111,7 @@ searchcode "import module" --lines-of-code-gt 500 --lines-of-code-lt 1000
 
 ```python
 from pprint import pprint
-from src.searchcode import Searchcode
+from searchcode import Searchcode
 
 sc = Searchcode(user_agent="My-Searchcode-script")
 search = sc.search(query="import module", lines_of_code_gt=500, lines_of_code_lt=1000)
@@ -135,7 +134,7 @@ searchcode "import module" --callback myCallback
 
 ```python
 from pprint import pprint
-from src.searchcode import Searchcode
+from searchcode import Searchcode
 
 sc = Searchcode(user_agent="My-Searchcode-script")
 search = sc.search(query="import module", callback="myCallback")
@@ -216,7 +215,7 @@ searchode code 4061576
 
 ```python
 
-from src.searchcode import Searchcode
+from searchcode import Searchcode
 
 sc = Searchcode(user_agent="My-Searchcode-script")
 data = sc.code(4061576)
