@@ -16,6 +16,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 import typing as t
+from types import SimpleNamespace
 
 import rich_click as click
 from rich.syntax import Syntax
@@ -73,10 +74,6 @@ def licence(
         )
     else:
         click.echo(ctx.get_help())
-
-
-import typing as t
-from types import SimpleNamespace
 
 
 @click.option(
@@ -166,7 +163,6 @@ def search(
             sources=sources,
             lines_of_code_lt=lines_of_code_lt,
             lines_of_code_gt=lines_of_code_gt,
-            callback=None,
             status=status,
         )
 
@@ -184,8 +180,7 @@ def fetch_paginated_results(
     sources: t.Optional[t.List[str]],
     lines_of_code_lt: t.Optional[int],
     lines_of_code_gt: t.Optional[int],
-    callback: t.Optional[str],
-    status,
+    status: console.status,
 ) -> t.Tuple[t.List[SimpleNamespace], int]:
     """
     Fetch paginated results from the code index.
