@@ -162,39 +162,6 @@ pprint(search)
 
 > To fetch all results for a given query, keep incrementing `page` parameter until you get a page with an empty results
 > list.
----
-
-### Response Attribute Definitions
-
-| Attribute            | Description                                                                                                                                                                                               |
-|----------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **searchterm**       | Search term supplied to the API through the use of the `q` parameter.                                                                                                                                     |
-| **query**            | Identical to `searchterm` and included for historical reasons to maintain backward compatibility.                                                                                                         |
-| **matchterm**        | Identical to `searchterm` and included for historical reasons to maintain backward compatibility.                                                                                                         |
-| **page**             | ID of the current page that the query has returned. This is a zero-based index.                                                                                                                           |
-| **nextpage**         | ID of the offset of the next page. Always set to the current page + 1, even if you have reached the end of the results. This is a zero-based index.                                                       |
-| **previouspage**     | ID of the offset of the previous page. If no previous page is available, it will be set to `null`. This is a zero-based index.                                                                            |
-| **total**            | The total number of results that match the `searchterm` in the index. Note that this value is approximate. It becomes more accurate as you go deeper into the results or use more filters.                |
-| **language_filters** | Returns an array containing languages that exist in the result set.                                                                                                                                       |
-| **id**               | Unique ID for this language used by searchcode, which can be used in other API calls.                                                                                                                     |
-| **count**            | Total number of results that are written in this language.                                                                                                                                                |
-| **language**         | The name of this language.                                                                                                                                                                                |
-| **source_filters**   | Returns an array containing sources that exist in the result set.                                                                                                                                         |
-| **id**               | Unique ID for this source used by searchcode, which can be used in other API calls.                                                                                                                       |
-| **count**            | Total number of results that belong to this source.                                                                                                                                                       |
-| **source**           | The name of this source.                                                                                                                                                                                  |
-| **results**          | Returns an array containing the matching code results.                                                                                                                                                    |
-| **id**               | Unique ID for this code result used by searchcode, which can be used in other API calls.                                                                                                                  |
-| **filename**         | The filename for this file.                                                                                                                                                                               |
-| **repo**             | HTML link to the location of the repository where this code was found.                                                                                                                                    |
-| **linescount**       | Total number of lines in the matching file.                                                                                                                                                               |
-| **location**         | Location inside the repository where this file exists.                                                                                                                                                    |
-| **name**             | Name of the repository that this file belongs to.                                                                                                                                                         |
-| **language**         | The identified language of this result.                                                                                                                                                                   |
-| **url**              | URL to searchcode's location of the file.                                                                                                                                                                 |
-| **md5hash**          | Calculated MD5 hash of the file's contents.                                                                                                                                                               |
-| **lines**            | Contains line numbers and lines which match the `searchterm`. Lines immediately before and after the match are included. If only the filename matches, up to the first 15 lines of the file are returned. |
-
 ___
 
 ### Code Result
