@@ -18,9 +18,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import typing as t
 
 
-__all__ = ["CODE_LANGUAGES", "CODE_SOURCES", "get_language_ids", "get_source_ids"]
+__all__ = ["LANGUAGES", "SOURCES", "get_language_ids", "get_source_ids"]
 
-CODE_SOURCES = t.Literal[
+SOURCES = t.Literal[
     "Google Code",
     "GitHub",
     "BitBucket",
@@ -38,7 +38,7 @@ CODE_SOURCES = t.Literal[
     "Sr.ht",
 ]
 
-CODE_LANGUAGES = t.Literal[
+LANGUAGES = t.Literal[
     "XAML",
     "ASP.NET",
     "HTML",
@@ -387,12 +387,12 @@ CODE_LANGUAGES = t.Literal[
 ]
 
 
-def get_source_ids(source_names: t.List[CODE_SOURCES]) -> t.List[int]:
+def get_source_ids(source_names: t.List[SOURCES]) -> t.List[int]:
     """
     Gets a list of source IDs corresponding to the given source names.
 
     :param source_names: A list of source names to look up (e.g., "GitHub", "GitLab").
-    :type source_names: List[CODE_SOURCES]
+    :type source_names: List[SOURCES]
     :return: A list of IDs corresponding to the given source names.
     :rtype: List[int]
     """
@@ -418,12 +418,12 @@ def get_source_ids(source_names: t.List[CODE_SOURCES]) -> t.List[int]:
     return [sources[name] for name in source_names if name in sources]
 
 
-def get_language_ids(language_names: t.List[CODE_LANGUAGES]) -> t.List:
+def get_language_ids(language_names: t.List[LANGUAGES]) -> t.List:
     """
     Gets a list of language IDs corresponding to the given language names.
 
     :param language_names: A list of language names to look up (e.g., "Python", "JavaScript").
-    :type language_names: List[CODE_LANGUAGES]
+    :type language_names: List[LANGUAGES]
     :return: A list of IDs corresponding to the given language names.
     :rtype: List[int]
     """

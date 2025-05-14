@@ -21,7 +21,8 @@ from types import SimpleNamespace
 
 import requests
 
-from .filters import CODE_LANGUAGES, CODE_SOURCES, get_language_ids, get_source_ids
+from ._lib import dict_to_namespace
+from .filters import LANGUAGES, SOURCES, get_language_ids, get_source_ids
 
 __all__ = ["Searchcode"]
 
@@ -36,8 +37,8 @@ class Searchcode:
         query: str,
         page: int = 0,
         per_page: int = 100,
-        languages: t.Optional[t.List[CODE_LANGUAGES]] = None,
-        sources: t.Optional[t.List[CODE_SOURCES]] = None,
+        languages: t.Optional[t.List[LANGUAGES]] = None,
+        sources: t.Optional[t.List[SOURCES]] = None,
         lines_of_code_gt: t.Optional[int] = None,
         lines_of_code_lt: t.Optional[int] = None,
         callback: t.Optional[str] = None,
@@ -95,7 +96,7 @@ class Searchcode:
         )
 
         if not callback:
-            response = self.__to_namespace_obj(response=response)
+            response = dict_to_namespace(obj=response)
             response.results = response.results[:per_page]
 
         return response
@@ -113,7 +114,7 @@ class Searchcode:
         response = self.__send_request(
             endpoint=f"{self.__base_api_endpoint}/result/{__id}"
         )
-        return self.__to_namespace_obj(response=response)
+        return dict_to_namespace(obj=response)
 
     # This is deprecated (for now).
     # def related(_id: int) -> Dict:
@@ -159,28 +160,3 @@ class Searchcode:
         )
         response.raise_for_status()
         return response.text if callback else response.json()
-
-    def __to_namespace_obj(
-        self,
-        response: t.Union[t.List[t.Dict], t.Dict],
-    ) -> t.Union[t.List[SimpleNamespace], SimpleNamespace, t.List[t.Dict], t.Dict]:
-        """
-        Recursively converts the API response into a SimpleNamespace object(s).
-
-        :param response: The object to convert, either a dictionary or a list of dictionaries.
-        :type response: Union[List[Dict], Dict]
-        :return: A SimpleNamespace object or list of SimpleNamespace objects.
-        :rtype: Union[List[SimpleNamespace], SimpleNamespace, None]
-        """
-
-        if isinstance(response, t.Dict):
-            return SimpleNamespace(
-                **{
-                    key: self.__to_namespace_obj(response=value)
-                    for key, value in response.items()
-                }
-            )
-        elif isinstance(response, t.List):
-            return [self.__to_namespace_obj(response=item) for item in response]
-        else:
-            return response
