@@ -19,17 +19,14 @@ import typing as t
 from types import SimpleNamespace
 
 import rich_click as click
-from rich.syntax import Syntax
 
-from .lib import (
-    console,
-    update_window_title,
-    clear_screen,
-    print_jsonp,
-    print_panels,
-    namespace_to_dict,
-)
+from .panels import console, print_panels
 from .. import __pkg__, __version__, License
+from .._lib import (
+    clear_screen,
+    namespace_to_dict,
+    update_window_title,
+)
 from ..api import Searchcode
 
 __all__ = ["cli"]
@@ -149,12 +146,12 @@ def search(
             lines_of_code_gt=lines_of_code_gt,
             callback=callback,
         )
-        print_jsonp(jsonp=response)
+        print_panels(data=response)
         return
 
     # normal paginated search
-    with console.status(f"Querying: [green]{query}[/]") as status:
-        results, total = fetch_paginated_results(
+    with console.status(f"Querying code index with [green]{query}[/]...") as status:
+        results, total = _fetch_paginated_results(
             query=query,
             start_page=page,
             per_page=per_page,
@@ -166,12 +163,20 @@ def search(
             status=status,
         )
 
-    print_results(
-        results=results, total=total, query=query, callback=callback, pretty=pretty
-    )
+    if results:
+        if not callback and not pretty:
+            console.log(f"Showing {len(results)} of {total} results for '{query}'")
+        if pretty:
+            console.print(namespace_to_dict(obj=results))
+        else:
+            print_panels(data=results)
+    else:
+        console.log(
+            f"[bold yellow]✘[/bold yellow] No results found for [bold yellow]{query}[/bold yellow]."
+        )
 
 
-def fetch_paginated_results(
+def _fetch_paginated_results(
     query: str,
     start_page: int,
     per_page: int,
@@ -192,11 +197,6 @@ def fetch_paginated_results(
     total_results = 0
 
     for current_iteration in range(1, pages + 1):
-        status.update(
-            f"Fetching page [cyan]{current_iteration}[/]/[cyan]{pages}[/] "
-            f"([cyan]{len(all_results)}[/] results collected)"
-        )
-
         response = sc.search(
             query=query,
             page=current_page,
@@ -206,6 +206,10 @@ def fetch_paginated_results(
             lines_of_code_lt=lines_of_code_lt,
             lines_of_code_gt=lines_of_code_gt,
             callback=None,
+        )
+        status.update(
+            f"Getting page results on page [cyan]{current_iteration}[/] of [cyan]{pages}[/] "
+            f"([cyan]{len(all_results)}[/] results collected)..."
         )
 
         if isinstance(response, str):
@@ -224,35 +228,6 @@ def fetch_paginated_results(
     return all_results, total_results
 
 
-def print_results(
-    results: t.List, total: int, query: str, callback: t.Optional[str], pretty: bool
-):
-    """
-    Print search results.
-
-    :param results: List of code records.
-    :param total: Total result count.
-    :param query: Search query.
-    :param callback: JSONP callback (should be None).
-    :param pretty: Whether to print raw JSON.
-    """
-    if results:
-        if pretty:
-            console.print(namespace_to_dict(obj=results))
-        else:
-            print_panels(data=results)
-
-        if not callback and not pretty:
-            console.log(
-                f"[bold green]✔[/bold green] Returned {len(results)} of {total} "
-                f"results for [bold green]{query}[/bold green]."
-            )
-    else:
-        console.log(
-            f"[bold yellow]✘[/bold yellow] No results for [bold yellow]{query}[/bold yellow]."
-        )
-
-
 @cli.command()
 @click.argument("id", type=int)
 def code(id: int):
@@ -263,16 +238,6 @@ def code(id: int):
     """
     clear_screen()
     update_window_title(text=str(id))
-    with console.status(f"Fetching code file: [cyan]{id}[/]"):
+    with console.status(f"Getting code file [cyan]{id}[/]..."):
         data = sc.code(id)
-        lines = data.code
-        language = data.language
-        if lines:
-            syntax = Syntax(
-                code=lines, lexer=language, line_numbers=True, theme="dracula"
-            )
-            console.print(syntax)
-        else:
-            console.log(
-                f"[bold yellow]✘[/bold yellow] No matching file found: [bold yellow]{id}[/bold yellow]."
-            )
+        print_panels(data=data, id=id)

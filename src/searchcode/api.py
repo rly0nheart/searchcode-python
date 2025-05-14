@@ -21,8 +21,8 @@ from types import SimpleNamespace
 
 import requests
 
-from .__cli.lib import dict_to_namespace
-from .filters import CODE_LANGUAGES, CODE_SOURCES, get_language_ids, get_source_ids
+from ._lib import dict_to_namespace
+from .filters import LANGUAGES, SOURCES, get_language_ids, get_source_ids
 
 __all__ = ["Searchcode"]
 
@@ -37,8 +37,8 @@ class Searchcode:
         query: str,
         page: int = 0,
         per_page: int = 100,
-        languages: t.Optional[t.List[CODE_LANGUAGES]] = None,
-        sources: t.Optional[t.List[CODE_SOURCES]] = None,
+        languages: t.Optional[t.List[LANGUAGES]] = None,
+        sources: t.Optional[t.List[SOURCES]] = None,
         lines_of_code_gt: t.Optional[int] = None,
         lines_of_code_lt: t.Optional[int] = None,
         callback: t.Optional[str] = None,

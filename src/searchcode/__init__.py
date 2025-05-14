@@ -23,6 +23,8 @@ __pkg__ = "searchcode"
 __version__ = "0.6.0"
 __author__ = "Ritchie Mwewa"
 
+__all__ = ["Searchcode"]
+
 
 class License:
     terms_and_conditions: str = """
