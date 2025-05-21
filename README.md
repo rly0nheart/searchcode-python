@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://searchcode.com/static/searchcode_logo.png" width=300><br><strong>Searchcode SDK</strong>: Python library and CLI utility for <a href="https://searchcode.com">Searchcode</a>.<br><i>Simple, comprehensive code search.</i></p>
+<img src="https://searchcode.com/static/searchcode_logo.png" width=300><br><strong>Searchcode Python</strong>: Python library and CLI utility for <a href="https://searchcode.com">Searchcode</a>.<br><i>Simple, comprehensive code search.</i></p>
 <p align="center"></p>
 
 ```commandline
