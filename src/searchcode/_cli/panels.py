@@ -40,7 +40,14 @@ def _make_syntax(code: str, language: str, **syntax_kwargs) -> Syntax:
     :return: A rich Syntax object for displaying code.
     :rtype: Syntax
     """
-    return Syntax(code=code, lexer=language, theme="dracula", **syntax_kwargs)
+    return Syntax(
+        code=code,
+        lexer=language,
+        theme="dracula",
+        word_wrap=True,
+        indent_guides=True,
+        **syntax_kwargs,
+    )
 
 
 def _make_syntax_panel(
@@ -71,7 +78,7 @@ def _make_syntax_panel(
 
 def print_panels(
     data: t.Union[t.List[SimpleNamespace], SimpleNamespace, str], **kwargs
-) -> None:
+):
     """
     Print panels for displaying code or structured file information.
 
@@ -84,8 +91,6 @@ def print_panels(
     :type data: Union[List[SimpleNamespace], SimpleNamespace, str]
     :param kwargs: Additional optional keyword arguments (e.g., id for logging).
     :type kwargs: Any
-    :return: None
-    :rtype: None
     """
     panels: t.List[Panel] = []
 
@@ -117,9 +122,7 @@ def print_panels(
                 lines_dict=lines.__dict__
             )
 
-            syntax = _make_syntax(
-                code=code_string, language=language, word_wrap=False, indent_guides=True
-            )
+            syntax = _make_syntax(code=code_string, language=language)
 
             header_text = (
                 f"[bold]{filename}[/] ([blue]{repo}[/]) "
