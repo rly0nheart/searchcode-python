@@ -2,6 +2,20 @@
 <img src="https://searchcode.com/logo.png" width=300><br><strong>Searchcode Python</strong>: Python library and CLI utility for <a href="https://searchcode.com">Searchcode</a>.<br><i>Simple, comprehensive code search.</i></p>
 <p align="center"></p>
 
+
+<div align="center">
+<h1>searchcode.com is being rebooted</h1>
+<p>After many years of helping developers find code snippets and examples, the time has come to reboot searchcode.com</p>
+<p>
+    For a more detailed explanation of why this is happening, please read the full blog post: <a href="https://boyter.org/posts/searchcode-is-being-rebooted/">searchcode is being rebooted</a>
+</p>
+    
+<div class="footer">
+    <p>© searchcode.com</p>
+</div>
+</div>
+
+
 ```commandline
 searchcode search "import module"
 ```
