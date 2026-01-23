@@ -386,14 +386,14 @@ jupyter = ["ipywidgets (>=7.5.1,<9)"]
 
 [[package]]
 name = "rich-click"
-version = "1.9.4"
+version = "1.9.6"
 description = "Format click help output nicely with rich"
 optional = false
 python-versions = ">=3.8"
 groups = ["main"]
 files = [
-    {file = "rich_click-1.9.4-py3-none-any.whl", hash = "sha256:d70f39938bcecaf5543e8750828cbea94ef51853f7d0e174cda1e10543767389"},
-    {file = "rich_click-1.9.4.tar.gz", hash = "sha256:af73dc68e85f3bebb80ce302a642b9fe3b65f3df0ceb42eb9a27c467c1b678c8"},
+    {file = "rich_click-1.9.6-py3-none-any.whl", hash = "sha256:e78d71e3f73a55548e573ccfd964e18503936e2e736a4a1f74c6c29479a2a054"},
+    {file = "rich_click-1.9.6.tar.gz", hash = "sha256:463bd3dbef54a812282bfa93dde80c471bce359823fc1301be368eab63391cb2"},
 ]
 
 [package.dependencies]
